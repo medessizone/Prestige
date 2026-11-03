@@ -1,0 +1,144 @@
+<!-- Created with Jaspersoft Studio version 7.0.8.final using JasperReports Library version 7.0.8-6f896111  -->
+<jasperReport name="PrestigeTemplateA4" language="java" columnCount="1" pageWidth="595" pageHeight="842" columnWidth="555" columnSpacing="550" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="a23ac88a-fde9-4171-9d3a-567ee30b3825">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="cm"/>
+	<parameter name="TITRE_ETAT" class="java.lang.String"/>
+	<query language="sql"><![CDATA[]]></query>
+	<background height="802" splitType="Stretch">
+		<element kind="image" uuid="1704457e-b3e3-47dd-9916-f168716f42cb" x="32" y="120" width="500" height="561" scaleImage="RetainShape" hImageAlign="Center" vImageAlign="Middle" onErrorType="Blank">
+			<expression><![CDATA["Prestige/PrestigeFiligrane.png"]]></expression>
+		</element>
+	</background>
+	<title height="30" splitType="Stretch"/>
+	<pageHeader height="165" splitType="Stretch">
+		<element kind="frame" uuid="b9845d71-d581-4799-8ac3-b85ad8c6b01d" x="0" y="0" width="167" height="100">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<element kind="line" uuid="31fde4e2-337f-4b92-bcbf-335b1f270db6" x="69" y="32" width="20" height="1">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<pen lineStyle="Dashed"/>
+			</element>
+			<element kind="staticText" uuid="00b767bc-953d-41e1-ade9-ed81871009bd" x="16" y="37" width="143" height="15" fontName="Times New Roman" fontSize="8.0" hTextAlign="Center">
+				<text><![CDATA[SECRETARIAT GENERAL]]></text>
+			</element>
+			<element kind="staticText" uuid="f3a948ea-bd36-4156-a293-992194b7044a" x="16" y="62" width="143" height="15" fontName="Times New Roman" fontSize="8.0" hTextAlign="Center">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<text><![CDATA[DIRECTION GENERALE DU BUDGET ]]></text>
+			</element>
+			<element kind="staticText" uuid="1235f390-083c-4ba0-ab48-1c9dd553ce0d" x="16" y="2" width="143" height="15" fontName="Times New Roman" fontSize="8.0" hTextAlign="Center">
+				<text><![CDATA[MINISTERE DES FINANCES ]]></text>
+			</element>
+			<element kind="line" uuid="c04de2d9-7af8-4cd8-8963-4ae7284fa99c" x="69" y="55" width="20" height="1">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<pen lineStyle="Dashed"/>
+			</element>
+			<element kind="staticText" uuid="02b13858-34f6-4d8c-964f-1f1c79485da8" x="16" y="16" width="143" height="13" fontName="Times New Roman" fontSize="8.0" hTextAlign="Center">
+				<text><![CDATA[ET DU DUDGET]]></text>
+			</element>
+			<element kind="staticText" uuid="f30f6f35-48f5-4f36-9c2a-0557731373b1" x="16" y="80" width="143" height="15" fontName="Times New Roman" fontSize="8.0" hTextAlign="Center">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<text><![CDATA[ET DES FINANCES]]></text>
+			</element>
+		</element>
+		<element kind="staticText" uuid="ee1f6344-9705-4f23-8035-bf83fb4c94a9" x="209" y="88" width="146" height="10" fontName="Times New Roman" fontSize="8.0" hTextAlign="Center">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<text><![CDATA[REPUBLIQUE TOGOLAISE ]]></text>
+		</element>
+		<element kind="line" uuid="ff6784be-a9dd-4274-a948-ec6110535469" x="266" y="108" width="30" height="1">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<pen lineStyle="Dashed"/>
+		</element>
+		<element kind="image" uuid="7037ddfe-352d-4d02-bcce-45bc9b489794" x="251" y="1" width="59" height="89">
+			<expression><![CDATA["Prestige/PrestigeLogo.jpg"]]></expression>
+		</element>
+		<element kind="frame" uuid="e8b5d3a2-7f1a-4c8e-b123-9f8a3d4e2c10" x="109" y="113" width="350" height="29">
+			<element kind="rectangle" uuid="6aa566b6-464f-4c78-a379-3dcf0044ccf1" x="-5" y="0" width="353" height="29" forecolor="#015B82" backcolor="#74BBFB" mode="Opaque" radius="8"/>
+			<element kind="textField" uuid="70741a07-57e3-43d3-a14c-c1f0b953881c" x="-5" y="5" width="352" height="16" forecolor="#015B82" markup="none" textAdjust="StretchHeight" hTextAlign="Center">
+				<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+				<property name="com.jaspersoft.studio.unit.spacingAfter" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<paragraph spacingBefore="3" spacingAfter="5"/>
+				<expression><![CDATA[$P{TITRE_ETAT}]]></expression>
+			</element>
+		</element>
+		<element kind="staticText" uuid="619b26a8-e7f4-4fbc-888a-d78eaabf5f0f" x="252" y="147" width="42" height="10" fontName="Times New Roman" fontSize="8.0">
+			<text><![CDATA[Exercice :]]></text>
+		</element>
+		<element kind="textField" uuid="887f72fd-2bd9-4f36-b3a8-82aa9f337725" x="285" y="147" width="30" height="10" fontName="Times New Roman" fontSize="8.0" hTextAlign="Center">
+			<expression><![CDATA[new java.text.SimpleDateFormat("yyyy").format(new java.util.Date())]]></expression>
+		</element>
+		<element kind="staticText" uuid="8c86066a-8181-4611-a041-9ef721dc9189" x="255" y="100" width="50" height="7" markup="none" fontName="Times New Roman" fontSize="5.0" hTextAlign="Center">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.spacingAfter" value="px"/>
+			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+			<paragraph spacingBefore="0"/>
+			<text><![CDATA[Travail - Liberté - Patrie]]></text>
+		</element>
+		<element kind="component" uuid="3b110fe5-b50a-4d6f-9357-439facaf0207" x="21" y="96" width="82" height="68" forecolor="#015B82">
+			<component kind="barcode4j:QRCode">
+				<codeExpression><![CDATA["Nom: TADETE\nPrenom: Medessi\nPoste: Developpeur\nMail: taderedavid@gmail.com\nTelephone: 70424747"]]></codeExpression>
+			</component>
+		</element>
+	</pageHeader>
+	<columnHeader height="61" splitType="Stretch"/>
+	<detail>
+		<band height="140" splitType="Stretch"/>
+	</detail>
+	<columnFooter height="45" splitType="Stretch"/>
+	<pageFooter height="22" splitType="Stretch">
+		<element kind="staticText" uuid="cb24db97-6e62-4b93-b9e3-0dd7dec2e5ec" x="125" y="4" width="309" height="14" fontName="Times New Roman" fontSize="8.0" hTextAlign="Center">
+			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<paragraph spacingBefore="2"/>
+			<text><![CDATA[Prestige, l'expertise nationale au service des finaces publiques]]></text>
+		</element>
+		<element kind="line" uuid="2184c12e-0fc4-49c3-a87a-032b663932ec" x="3" y="1" width="550" height="1">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="staticText" uuid="c4aa83a0-ad70-4720-ad45-94cadfd73f36" x="3" y="1" width="26" height="15" fontName="Times New Roman" fontSize="6.0">
+			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<paragraph spacingBefore="4"/>
+			<text><![CDATA[Editer le :]]></text>
+		</element>
+		<element kind="textField" uuid="239295a9-428f-44d7-aadd-71aa91046283" x="29" y="1" width="56" height="15" fontName="Times New Roman" fontSize="6.0" hTextAlign="Left">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+			<paragraph spacingBefore="4"/>
+			<expression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())]]></expression>
+		</element>
+		<element kind="staticText" uuid="5e07f238-57d2-440b-a1fc-c2b62fab7db0" x="495" y="6" width="22" height="14" fontName="Times New Roman" fontSize="6.0">
+			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+			<paragraph spacingBefore="2"/>
+			<text><![CDATA[Page ]]></text>
+		</element>
+		<element kind="staticText" uuid="27d349c2-8cd8-496c-9bec-42daeec91940" x="521" y="6" width="6" height="14" fontSize="6.0">
+			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+			<paragraph spacingBefore="2"/>
+			<text><![CDATA[/]]></text>
+		</element>
+		<element kind="textField" uuid="45dc4047-ed6e-4e38-8da0-f8b165313edf" x="513" y="6" width="16" height="14" fontName="Times New Roman" fontSize="6.0">
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+			<paragraph spacingBefore="2"/>
+			<expression><![CDATA[$V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="textField" uuid="c9a86fd5-a0c0-4449-a374-afcd8b4cb62f" x="525" y="6" width="20" height="14" fontName="Times New Roman" fontSize="6.0">
+			<property name="com.jaspersoft.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+			<paragraph spacingBefore="2"/>
+			<expression><![CDATA[$V{PAGE_COUNT}]]></expression>
+		</element>
+	</pageFooter>
+</jasperReport>

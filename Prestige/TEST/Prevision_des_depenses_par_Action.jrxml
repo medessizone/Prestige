@@ -1,0 +1,395 @@
+<!-- Created with Jaspersoft Studio version 7.0.8.final using JasperReports Library version 7.0.8-6f896111  -->
+<jasperReport name="PrestigeDepensesAction" language="java" columnCount="1" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" columnSpacing="550" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="1e5682cf-a91a-46fb-80ff-2f861dde96b9">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SIGFIP"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="cm"/>
+	<style name="Cell" vTextAlign="Middle" fontName="Times New Roman" fontSize="8.0">
+		<box leftPadding="3" rightPadding="3">
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="TxtCell" style="Cell" hTextAlign="Left"/>
+	<style name="NumCell" style="Cell" hTextAlign="Right"/>
+	<style name="Head" style="Cell" mode="Opaque" forecolor="#FFFFFF" backcolor="#015B82" hTextAlign="Center" vTextAlign="Middle" bold="true"/>
+	<style name="HeadSub" style="Cell" mode="Opaque" forecolor="#015B82" backcolor="#E1E4F5" hTextAlign="Center" vTextAlign="Middle" bold="true"/>
+	<style name="TotLabel" style="Cell" mode="Opaque" forecolor="#FFFFFF" backcolor="#015B82" hTextAlign="Center" vTextAlign="Middle">
+		<box leftPadding="3" rightPadding="3" style="Cell">
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="TotNum" style="Cell" mode="Opaque" forecolor="#FFFFFF" backcolor="#015B82" hTextAlign="Right" vTextAlign="Middle">
+		<box leftPadding="3" rightPadding="3" style="Cell">
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="ProgTxt" style="Cell" mode="Opaque" forecolor="#015B82" backcolor="#E1E4F5" hTextAlign="Left" vTextAlign="Middle" bold="true"/>
+	<style name="ProgNum" style="ProgTxt" hTextAlign="Right"/>
+	<parameter name="TITRE_ETAT" class="java.lang.String">
+		<defaultValueExpression><![CDATA["PREVISIONS DES DEPENSES PAR ACTION"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_EXE_EXE" class="java.lang.String"/>
+	<parameter name="P_Vesion" class="java.lang.String"/>
+	<parameter name="P_Section" class="java.lang.String"/>
+	<parameter name="P_Programme" class="java.lang.String"/>
+	<parameter name="P_Action" class="java.lang.String"/>
+	<parameter name="P_VERSION_LIB" class="java.lang.String"/>
+	<query language="sql"><![CDATA[select
+ d.LB_EXE_EXE,
+ d.LB_EXE_VER_CODE,
+ d.LB_SEC_NUM,
+ s.SEC_LIB_COURT,
+ s.SEC_LIB_LONG,
+ substr(d.LB_IB_CODE,1,3) as PROG_CODE,
+ p.PROG_LIB,
+ substr(d.LB_IB_CODE,1,4) as ACT_CODE,
+ a.ACT_LIB_LONG,
+ a.ACT_LIB_COURT,
+ nvl(sum(d.LB_MONTANT_FINAL_AE),0)/1000 as AE,
+ nvl(sum(d.LB_MONTANT_FINAL),0)/1000 as CP,
+ nvl(sum(d.LB_MONTANT_FINAL_AE1),0)/1000 as AE1,
+ nvl(sum(d.LB_MONTANT_FINAL_CP1),0)/1000 as CP1,
+ nvl(sum(d.LB_MONTANT_FINAL_AE2),0)/1000 as AE2,
+ nvl(sum(d.LB_MONTANT_FINAL_CP2),0)/1000 as CP2
+from vb_ligne_budget_dep d, vb_section_courante s, vbp_programmes_courant p, vbp_action_courante a
+where d.LB_SEC_NUM=s.SEC_NUM
+ and d.LB_SEC_DATE_EFFET=s.SEC_DATE_EFFET
+ and substr(d.LB_IB_CODE,1,3)=p.PROG_CODE
+ and substr(d.LB_IB_CODE,1,4)=a.ACT_CODE
+ and d.LB_EXE_EXE like CONCAT($P{P_EXE_EXE},'%')
+ and d.LB_EXE_VER_CODE like CONCAT($P{P_Vesion},'%')
+ and d.LB_SEC_NUM like CONCAT($P{P_Section},'%')
+ and substr(d.LB_IB_CODE,1,3) like CONCAT($P{P_Programme},'%')
+ and substr(d.LB_IB_CODE,1,4) like CONCAT($P{P_Action},'%')
+ and substr(d.LB_IB_CODE,5,1)=1
+group by d.LB_EXE_EXE, d.LB_EXE_VER_CODE,
+ d.LB_SEC_NUM, s.SEC_LIB_COURT, s.SEC_LIB_LONG,
+ substr(d.LB_IB_CODE,1,3), p.PROG_LIB,
+ substr(d.LB_IB_CODE,1,4), a.ACT_LIB_LONG, a.ACT_LIB_COURT
+order by 3, 6, 8]]></query>
+	<field name="LB_EXE_EXE" class="java.lang.String"/>
+	<field name="LB_EXE_VER_CODE" class="java.lang.String"/>
+	<field name="LB_SEC_NUM" class="java.lang.String"/>
+	<field name="SEC_LIB_COURT" class="java.lang.String"/>
+	<field name="SEC_LIB_LONG" class="java.lang.String"/>
+	<field name="PROG_CODE" class="java.lang.String"/>
+	<field name="PROG_LIB" class="java.lang.String"/>
+	<field name="ACT_CODE" class="java.lang.String"/>
+	<field name="ACT_LIB_LONG" class="java.lang.String"/>
+	<field name="ACT_LIB_COURT" class="java.lang.String"/>
+	<field name="AE" class="java.math.BigDecimal"/>
+	<field name="CP" class="java.math.BigDecimal"/>
+	<field name="AE1" class="java.math.BigDecimal"/>
+	<field name="CP1" class="java.math.BigDecimal"/>
+	<field name="AE2" class="java.math.BigDecimal"/>
+	<field name="CP2" class="java.math.BigDecimal"/>
+	<variable name="V_P_AE" resetType="Group" calculation="Sum" resetGroup="G_PROG" class="java.math.BigDecimal">
+		<expression><![CDATA[$F{AE}]]></expression>
+	</variable>
+	<variable name="V_P_CP" resetType="Group" calculation="Sum" resetGroup="G_PROG" class="java.math.BigDecimal">
+		<expression><![CDATA[$F{CP}]]></expression>
+	</variable>
+	<variable name="V_P_AE1" resetType="Group" calculation="Sum" resetGroup="G_PROG" class="java.math.BigDecimal">
+		<expression><![CDATA[$F{AE1}]]></expression>
+	</variable>
+	<variable name="V_P_CP1" resetType="Group" calculation="Sum" resetGroup="G_PROG" class="java.math.BigDecimal">
+		<expression><![CDATA[$F{CP1}]]></expression>
+	</variable>
+	<variable name="V_P_AE2" resetType="Group" calculation="Sum" resetGroup="G_PROG" class="java.math.BigDecimal">
+		<expression><![CDATA[$F{AE2}]]></expression>
+	</variable>
+	<variable name="V_P_CP2" resetType="Group" calculation="Sum" resetGroup="G_PROG" class="java.math.BigDecimal">
+		<expression><![CDATA[$F{CP2}]]></expression>
+	</variable>
+	<variable name="V_G_AE" calculation="Sum" class="java.math.BigDecimal">
+		<expression><![CDATA[$F{AE}]]></expression>
+	</variable>
+	<variable name="V_G_CP" calculation="Sum" class="java.math.BigDecimal">
+		<expression><![CDATA[$F{CP}]]></expression>
+	</variable>
+	<variable name="V_G_AE1" calculation="Sum" class="java.math.BigDecimal">
+		<expression><![CDATA[$F{AE1}]]></expression>
+	</variable>
+	<variable name="V_G_CP1" calculation="Sum" class="java.math.BigDecimal">
+		<expression><![CDATA[$F{CP1}]]></expression>
+	</variable>
+	<variable name="V_G_AE2" calculation="Sum" class="java.math.BigDecimal">
+		<expression><![CDATA[$F{AE2}]]></expression>
+	</variable>
+	<variable name="V_G_CP2" calculation="Sum" class="java.math.BigDecimal">
+		<expression><![CDATA[$F{CP2}]]></expression>
+	</variable>
+	<group name="G_SECTION" startNewPage="true" reprintHeaderOnEachPage="true">
+		<expression><![CDATA[$F{LB_SEC_NUM}]]></expression>
+		<groupHeader>
+			<band height="64" splitType="Stretch">
+				<element kind="rectangle" uuid="0844d5ad-c774-42d0-8c7a-eb2ce9fe218e" x="0" y="0" width="802" height="22" forecolor="#E1E4F5" backcolor="#E1E4F5" mode="Opaque" radius="4"/>
+				<element kind="rectangle" uuid="86968326-6964-4c85-9a1d-14365cb3cb14" x="0" y="0" width="4" height="22" forecolor="#015B82" backcolor="#015B82" mode="Opaque"/>
+				<element kind="textField" uuid="e8a06805-d3b6-42d8-9a5c-61668cff8bab" x="13" y="0" width="40" height="22" forecolor="#015B82" fontName="DejaVu Sans" fontSize="10.0" bold="true" vTextAlign="Middle">
+					<expression><![CDATA[$F{LB_SEC_NUM}]]></expression>
+				</element>
+				<element kind="textField" uuid="95844611-5da7-48df-84ec-a4c4ed2834b2" x="55" y="0" width="740" height="22" forecolor="#015B82" fontName="DejaVu Sans" fontSize="10.0" bold="true" blankWhenNull="true" vTextAlign="Middle">
+					<expression><![CDATA[$F{SEC_LIB_LONG}]]></expression>
+				</element>
+				<element kind="staticText" uuid="8b6ff448-ce79-4931-a9f1-901be0783fcf" x="0" y="28" width="292" height="36" style="Head">
+					<text><![CDATA[Actions]]></text>
+				</element>
+				<element kind="textField" uuid="2f06ccbe-a6f0-4a02-85c9-0a6943b8f4b6" x="292" y="28" width="171" height="18" style="Head">
+					<expression><![CDATA[$F{LB_EXE_EXE}]]></expression>
+				</element>
+				<element kind="textField" uuid="93127ace-6535-49eb-9483-95ae2869ba41" x="463" y="28" width="170" height="18" style="Head">
+					<expression><![CDATA[String.valueOf(Integer.parseInt($F{LB_EXE_EXE}.trim()) + 1)]]></expression>
+				</element>
+				<element kind="textField" uuid="6f76b696-384c-44d6-91eb-bb2fe481c22f" x="633" y="28" width="169" height="18" style="Head">
+					<expression><![CDATA[String.valueOf(Integer.parseInt($F{LB_EXE_EXE}.trim()) + 2)]]></expression>
+				</element>
+				<element kind="staticText" uuid="99a68da8-b80c-4ce2-bedf-7a6c6f98de96" x="292" y="46" width="85" height="18" style="HeadSub">
+					<text><![CDATA[AE]]></text>
+				</element>
+				<element kind="staticText" uuid="9500b483-51e6-4c6a-8233-74258eff438c" x="377" y="46" width="86" height="18" style="HeadSub">
+					<text><![CDATA[CP]]></text>
+				</element>
+				<element kind="staticText" uuid="60ddba5a-7be3-4d15-bb46-697fb57f4012" x="463" y="46" width="85" height="18" style="HeadSub">
+					<text><![CDATA[AE]]></text>
+				</element>
+				<element kind="staticText" uuid="4d651d09-f944-4f29-91da-5c10e14d0178" x="548" y="46" width="85" height="18" style="HeadSub">
+					<text><![CDATA[CP]]></text>
+				</element>
+				<element kind="staticText" uuid="f9318d77-925e-46e8-b149-55ea413c6065" x="633" y="46" width="85" height="18" style="HeadSub">
+					<text><![CDATA[AE]]></text>
+				</element>
+				<element kind="staticText" uuid="c847a55c-a81b-4f21-9352-8dc1e6f956ba" x="718" y="46" width="84" height="18" style="HeadSub">
+					<text><![CDATA[CP]]></text>
+				</element>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="G_PROG" minHeightToStartNewPage="50">
+		<expression><![CDATA[$F{PROG_CODE}]]></expression>
+		<groupHeader>
+			<band height="18" splitType="Stretch">
+				<element kind="textField" uuid="18d687ee-fb2f-4155-822b-6d4b820acb71" x="0" y="0" width="51" height="18" stretchType="ContainerHeight" hTextAlign="Center" style="ProgTxt">
+					<expression><![CDATA[$F{PROG_CODE}]]></expression>
+				</element>
+				<element kind="textField" uuid="1b979231-7888-4f36-897d-31a88766b912" x="51" y="0" width="241" height="18" stretchType="ContainerHeight" textAdjust="StretchHeight" style="ProgTxt">
+					<expression><![CDATA[$F{PROG_LIB}]]></expression>
+				</element>
+				<element kind="textField" uuid="0f38ed84-4a86-446e-917f-f74d3d8e18ef" x="292" y="0" width="85" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_PROG" style="ProgNum">
+					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_P_AE}).replace(',', ' ')]]></expression>
+				</element>
+				<element kind="textField" uuid="4002ef26-9e1a-42bd-af19-7683fe15f5fe" x="377" y="0" width="86" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_PROG" style="ProgNum">
+					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_P_CP}).replace(',', ' ')]]></expression>
+				</element>
+				<element kind="textField" uuid="48dbf9ac-fb5d-4b2b-8a3a-679fa4044c55" x="463" y="0" width="85" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_PROG" style="ProgNum">
+					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_P_AE1}).replace(',', ' ')]]></expression>
+				</element>
+				<element kind="textField" uuid="ccceef94-0171-44f3-b5eb-a1494b8beb06" x="548" y="0" width="85" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_PROG" style="ProgNum">
+					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_P_CP1}).replace(',', ' ')]]></expression>
+				</element>
+				<element kind="textField" uuid="c1a973f0-3236-4e38-a4a9-fd9ac6c3c646" x="633" y="0" width="85" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_PROG" style="ProgNum">
+					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_P_AE2}).replace(',', ' ')]]></expression>
+				</element>
+				<element kind="textField" uuid="f3b35617-53a7-4292-aa77-4eab74eaec5e" x="718" y="0" width="84" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_PROG" style="ProgNum">
+					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_P_CP2}).replace(',', ' ')]]></expression>
+				</element>
+			</band>
+		</groupHeader>
+	</group>
+	<background height="555" splitType="Stretch">
+		<element kind="image" uuid="b70324b9-a6a6-451a-b570-7aeaa92618a6" x="39" y="101" width="721" height="423" scaleImage="RetainShape" hImageAlign="Center" vImageAlign="Middle" onErrorType="Blank">
+			<expression><![CDATA["Prestige/PrestigeFiligrane.png"]]></expression>
+		</element>
+	</background>
+	<pageHeader height="163" splitType="Stretch">
+		<element kind="frame" uuid="4905e2cf-aa57-49cd-8bf5-304fc1ec9f5f" x="3" y="0" width="167" height="100">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<element kind="line" uuid="5c9744aa-38e9-4b44-8445-f265024a5f37" x="69" y="32" width="20" height="1">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<pen lineStyle="Dashed"/>
+			</element>
+			<element kind="staticText" uuid="6cb987e3-a3ee-4e4b-9ebc-54c9c492d56e" x="16" y="37" width="143" height="15" fontName="Times New Roman" fontSize="8.0" hTextAlign="Center">
+				<text><![CDATA[SECRETARIAT GENERAL]]></text>
+			</element>
+			<element kind="staticText" uuid="c42a1798-2b5d-4742-b741-18f297f6ab2b" x="16" y="62" width="143" height="15" fontName="Times New Roman" fontSize="8.0" hTextAlign="Center">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<text><![CDATA[DIRECTION GENERALE DU BUDGET ]]></text>
+			</element>
+			<element kind="staticText" uuid="aadee82d-ab67-4598-ae81-9abe7b3f37cd" x="16" y="2" width="143" height="15" fontName="Times New Roman" fontSize="8.0" hTextAlign="Center">
+				<text><![CDATA[MINISTERE DES FINANCES ]]></text>
+			</element>
+			<element kind="line" uuid="b7458428-c86e-4c10-a479-db80df682a09" x="69" y="55" width="20" height="1">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<pen lineStyle="Dashed"/>
+			</element>
+			<element kind="staticText" uuid="abf2123f-8aea-4730-9b53-6307f0987733" x="16" y="16" width="143" height="13" fontName="Times New Roman" fontSize="8.0" hTextAlign="Center">
+				<text><![CDATA[ET DU DUDGET]]></text>
+			</element>
+			<element kind="staticText" uuid="99d0f343-ef1c-4435-9731-524db7cecce5" x="16" y="80" width="143" height="15" fontName="Times New Roman" fontSize="8.0" hTextAlign="Center">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<text><![CDATA[ET DES FINANCES]]></text>
+			</element>
+		</element>
+		<element kind="staticText" uuid="3c18ff85-7aed-4313-99f9-8ad1cb238194" x="333" y="88" width="146" height="10" fontName="Times New Roman" fontSize="8.0" hTextAlign="Center">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<text><![CDATA[REPUBLIQUE TOGOLAISE ]]></text>
+		</element>
+		<element kind="line" uuid="41adb714-c8d4-4b5b-b7dd-13bd218a442f" x="390" y="108" width="30" height="1">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<pen lineStyle="Dashed"/>
+		</element>
+		<element kind="image" uuid="4487a488-0d46-41fe-96aa-24c0d4c13986" x="375" y="1" width="59" height="89">
+			<expression><![CDATA["Prestige/PrestigeLogo.jpg"]]></expression>
+		</element>
+		<element kind="frame" uuid="610d10a3-640a-4ca2-869b-80dc9e5c4b09" x="207" y="113" width="395" height="29">
+			<element kind="rectangle" uuid="0a80a086-67d6-4cdc-bc62-01959847aded" x="0" y="0" width="395" height="29" forecolor="#015B82" backcolor="#74BBFB" mode="Opaque" radius="8"/>
+			<element kind="textField" uuid="a59c68b2-7a43-4be5-b6a6-116b2411794c" x="0" y="4" width="394" height="17" forecolor="#015B82" textAdjust="StretchHeight" bold="true" hTextAlign="Center">
+				<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+				<property name="com.jaspersoft.studio.unit.spacingAfter" value="px"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<paragraph spacingBefore="3" spacingAfter="3"/>
+				<expression><![CDATA[$P{TITRE_ETAT}]]></expression>
+			</element>
+		</element>
+		<element kind="staticText" uuid="fdbaf08e-171e-4d9c-91f4-47273e3725db" x="379" y="100" width="50" height="7" markup="none" fontName="Times New Roman" fontSize="5.0" hTextAlign="Center">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.spacingAfter" value="px"/>
+			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+			<paragraph spacingBefore="0"/>
+			<text><![CDATA[Travail - Liberté - Patrie]]></text>
+		</element>
+		<element kind="staticText" uuid="4e9e2366-7fe0-47a1-b8cc-9f77b19b8f4c" x="207" y="143" width="395" height="10" fontName="Times New Roman" fontSize="8.0" italic="true" hTextAlign="Center">
+			<text><![CDATA[( millier de francs )]]></text>
+		</element>
+		<element kind="textField" uuid="ce7610d8-a91b-4de6-9c7a-faac13027f15" x="207" y="153" width="395" height="10" fontName="DejaVu Sans" fontSize="7.0" hTextAlign="Center" vTextAlign="Middle">
+			<expression><![CDATA["EXERCICE :   " + ($P{P_EXE_EXE} == null ? "" : $P{P_EXE_EXE}) + ($P{P_VERSION_LIB} == null || $P{P_VERSION_LIB}.isEmpty() ? "" : " - " + $P{P_VERSION_LIB})]]></expression>
+		</element>
+	</pageHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<element kind="textField" uuid="603974ae-2d27-4531-9c87-808834af8c66" x="0" y="0" width="51" height="18" stretchType="ContainerHeight" textAdjust="StretchHeight" hTextAlign="Center" style="TxtCell">
+				<expression><![CDATA[$F{ACT_CODE}]]></expression>
+			</element>
+			<element kind="textField" uuid="8f751445-a413-4548-b0cc-4e1975fe34e6" x="51" y="0" width="241" height="18" stretchType="ContainerHeight" textAdjust="StretchHeight" style="TxtCell">
+				<expression><![CDATA[$F{ACT_LIB_LONG}]]></expression>
+			</element>
+			<element kind="textField" uuid="cc99db3d-5eb4-49b0-be00-1f76cc6fab33" x="292" y="0" width="85" height="18" stretchType="ContainerHeight" style="NumCell">
+				<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $F{AE}).replace(',', ' ')]]></expression>
+			</element>
+			<element kind="textField" uuid="dd7f6b3f-100f-409e-8ab9-75d24c735d8c" x="377" y="0" width="86" height="18" stretchType="ContainerHeight" style="NumCell">
+				<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $F{CP}).replace(',', ' ')]]></expression>
+			</element>
+			<element kind="textField" uuid="6e541152-253f-40a0-a51e-8f62df41e786" x="463" y="0" width="85" height="18" stretchType="ContainerHeight" style="NumCell">
+				<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $F{AE1}).replace(',', ' ')]]></expression>
+			</element>
+			<element kind="textField" uuid="5b0ec37a-31df-4bd1-8f65-49d1bd24dfb6" x="548" y="0" width="85" height="18" stretchType="ContainerHeight" style="NumCell">
+				<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $F{CP1}).replace(',', ' ')]]></expression>
+			</element>
+			<element kind="textField" uuid="a29a3a1f-cd36-4f3a-ac26-920181dabbc6" x="633" y="0" width="85" height="18" stretchType="ContainerHeight" style="NumCell">
+				<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $F{AE2}).replace(',', ' ')]]></expression>
+			</element>
+			<element kind="textField" uuid="f783e3ea-3dc6-4f8a-89ab-13d0ab5eab76" x="718" y="0" width="84" height="18" stretchType="ContainerHeight" style="NumCell">
+				<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $F{CP2}).replace(',', ' ')]]></expression>
+			</element>
+		</band>
+	</detail>
+	<columnFooter splitType="Stretch"/>
+	<pageFooter height="109" splitType="Stretch">
+		<element kind="staticText" uuid="b1e38d68-e37e-492a-a2da-35b152fc8cc3" x="249" y="88" width="309" height="14" fontName="Times New Roman" fontSize="8.0" hTextAlign="Center">
+			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<paragraph spacingBefore="2"/>
+			<text><![CDATA[Prestige, l'expertise national au service des finaces publiques]]></text>
+		</element>
+		<element kind="line" uuid="87b8a106-bb59-4b72-b624-05ff74cc595c" x="3" y="85" width="797" height="1">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="staticText" uuid="12258648-91ec-41e0-b8e1-13e8d9798a1e" x="3" y="85" width="26" height="15" fontName="Times New Roman" fontSize="6.0">
+			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<paragraph spacingBefore="4"/>
+			<text><![CDATA[Editer le :]]></text>
+		</element>
+		<element kind="textField" uuid="a1f3460d-e448-429c-bb10-2306c28818de" x="29" y="85" width="56" height="15" fontName="Times New Roman" fontSize="6.0" hTextAlign="Left">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+			<paragraph spacingBefore="4"/>
+			<expression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())]]></expression>
+		</element>
+		<element kind="staticText" uuid="d40376c9-05fb-46de-8738-33ee4287e69f" x="742" y="90" width="22" height="14" fontName="Times New Roman" fontSize="6.0">
+			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+			<paragraph spacingBefore="2"/>
+			<text><![CDATA[Page ]]></text>
+		</element>
+		<element kind="staticText" uuid="599223b4-406b-4b2d-bb07-2558d4754948" x="768" y="90" width="6" height="14" fontSize="6.0">
+			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+			<paragraph spacingBefore="2"/>
+			<text><![CDATA[/]]></text>
+		</element>
+		<element kind="textField" uuid="b368b6bf-72fa-464d-a41a-747cc7eb14cb" x="760" y="90" width="16" height="14" fontName="Times New Roman" fontSize="6.0">
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+			<paragraph spacingBefore="2"/>
+			<expression><![CDATA[$V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="textField" uuid="307c8716-740b-4ebe-ad98-a6b5d0f7858c" x="772" y="90" width="20" height="14" fontName="Times New Roman" fontSize="6.0">
+			<property name="com.jaspersoft.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+			<paragraph spacingBefore="2"/>
+			<expression><![CDATA[$V{PAGE_COUNT}]]></expression>
+		</element>
+		<element kind="rectangle" uuid="5ae0ba58-5667-45d7-9c0d-9cf8a0dac9ff" x="5" y="2" width="265" height="82" backcolor="#015B82" radius="3">
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+		</element>
+		<element kind="rectangle" uuid="fdeec8ab-a51a-4993-860e-354c62fb90e9" x="6" y="2" width="262" height="80" radius="5">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<pen lineWidth="0.0"/>
+		</element>
+		<element kind="rectangle" uuid="c9b09e96-7212-4674-b2a3-31e9ae184462" x="19" y="7" width="87" height="70"/>
+		<element kind="component" uuid="cceb2701-851e-44c3-b69e-166671d49a02" x="3" y="5" width="114" height="74" backcolor="rgba(230, 239, 247, 0.0)" stretchType="NoStretch">
+			<property name="com.jaspersoft.studio.unit.margin" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<component kind="barcode4j:QRCode" evaluationTime="Report">
+				<codeExpression><![CDATA["123456789"]]></codeExpression>
+			</component>
+		</element>
+		<element kind="staticText" uuid="79cf0434-7739-4efc-93f8-25abea837875" x="117" y="28" width="152" height="32" fontSize="8.0" hTextAlign="Left">
+			<text><![CDATA[Scannez ce code pour tracer l'auteur de cet état]]></text>
+		</element>
+		<element kind="staticText" uuid="c2cd86e1-6636-403b-bf9f-495414fa962c" x="117" y="8" width="79" height="18">
+			<text><![CDATA[SCAN ME]]></text>
+		</element>
+	</pageFooter>
+	<summary height="30" splitType="Stretch">
+		<element kind="textField" uuid="9f7b0bc9-f9de-46c9-be48-c7c3a684642a" x="0" y="8" width="292" height="18" style="TotLabel">
+			<expression><![CDATA["TOTAL GENERAL :"]]></expression>
+		</element>
+		<element kind="textField" uuid="cbee036f-656a-41f3-a275-fe6b9ddfbe13" x="292" y="8" width="85" height="18" style="TotNum">
+			<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_G_AE}).replace(',', ' ')]]></expression>
+		</element>
+		<element kind="textField" uuid="705a393a-09d7-4622-9203-617325120dbf" x="377" y="8" width="86" height="18" style="TotNum">
+			<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_G_CP}).replace(',', ' ')]]></expression>
+		</element>
+		<element kind="textField" uuid="984b690c-edb7-490c-9a3d-e682b26ff1cb" x="463" y="8" width="85" height="18" style="TotNum">
+			<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_G_AE1}).replace(',', ' ')]]></expression>
+		</element>
+		<element kind="textField" uuid="7c2fa298-d33c-4cdb-b502-13933b92964e" x="548" y="8" width="85" height="18" style="TotNum">
+			<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_G_CP1}).replace(',', ' ')]]></expression>
+		</element>
+		<element kind="textField" uuid="abade37e-e120-47b9-b70d-0fc1d8d8241c" x="633" y="8" width="85" height="18" style="TotNum">
+			<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_G_AE2}).replace(',', ' ')]]></expression>
+		</element>
+		<element kind="textField" uuid="3f731615-21b4-48aa-9c35-cff087ea16c3" x="718" y="8" width="84" height="18" style="TotNum">
+			<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_G_CP2}).replace(',', ' ')]]></expression>
+		</element>
+	</summary>
+</jasperReport>

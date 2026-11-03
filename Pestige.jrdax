@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jdbcDataAdapter class="net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl">
+	<name>Prestige</name>
+	<classpath>C:\Program Files\TIBCO\ojdbc17.jar</classpath>
+	<driver>oracle.jdbc.driver.OracleDriver</driver>
+	<username>SIGFIP2</username>
+	<password>DEV123</password>
+	<url>jdbc:oracle:thin:@qualiformations.ch:1521/XEPDB1</url>
+	<database></database>
+	<savePassword>true</savePassword>
+	<serverAddress></serverAddress>
+</jdbcDataAdapter>
