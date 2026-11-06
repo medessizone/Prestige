@@ -95,7 +95,7 @@
 	</detail>
 	<columnFooter height="45" splitType="Stretch"/>
 	<pageFooter height="22" splitType="Stretch">
-		<element kind="staticText" uuid="cb24db97-6e62-4b93-b9e3-0dd7dec2e5ec" x="125" y="4" width="309" height="14" fontName="Times New Roman" fontSize="8.0" hTextAlign="Center">
+		<element kind="staticText" uuid="cb24db97-6e62-4b93-b9e3-0dd7dec2e5ec" x="125" y="1" width="309" height="14" fontName="Times New Roman" fontSize="8.0" hTextAlign="Center">
 			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<paragraph spacingBefore="2"/>
@@ -116,24 +116,24 @@
 			<paragraph spacingBefore="4"/>
 			<expression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())]]></expression>
 		</element>
-		<element kind="staticText" uuid="5e07f238-57d2-440b-a1fc-c2b62fab7db0" x="495" y="6" width="22" height="14" fontName="Times New Roman" fontSize="6.0">
+		<element kind="staticText" uuid="5e07f238-57d2-440b-a1fc-c2b62fab7db0" x="495" y="2" width="22" height="14" fontName="Times New Roman" fontSize="6.0">
 			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
 			<paragraph spacingBefore="2"/>
 			<text><![CDATA[Page ]]></text>
 		</element>
-		<element kind="staticText" uuid="27d349c2-8cd8-496c-9bec-42daeec91940" x="521" y="6" width="6" height="14" fontSize="6.0">
+		<element kind="staticText" uuid="27d349c2-8cd8-496c-9bec-42daeec91940" x="521" y="2" width="6" height="14" fontSize="6.0">
 			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
 			<paragraph spacingBefore="2"/>
 			<text><![CDATA[/]]></text>
 		</element>
-		<element kind="textField" uuid="45dc4047-ed6e-4e38-8da0-f8b165313edf" x="513" y="6" width="16" height="14" fontName="Times New Roman" fontSize="6.0">
+		<element kind="textField" uuid="45dc4047-ed6e-4e38-8da0-f8b165313edf" x="513" y="2" width="16" height="14" fontName="Times New Roman" fontSize="6.0">
 			<property name="com.jaspersoft.studio.unit.width" value="px"/>
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
 			<paragraph spacingBefore="2"/>
 			<expression><![CDATA[$V{PAGE_NUMBER}]]></expression>
 		</element>
-		<element kind="textField" uuid="c9a86fd5-a0c0-4449-a374-afcd8b4cb62f" x="525" y="6" width="20" height="14" fontName="Times New Roman" fontSize="6.0">
+		<element kind="textField" uuid="c9a86fd5-a0c0-4449-a374-afcd8b4cb62f" x="525" y="2" width="20" height="14" fontName="Times New Roman" fontSize="6.0">
 			<property name="com.jaspersoft.width" value="px"/>
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>

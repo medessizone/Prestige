@@ -1,6 +1,6 @@
 <!-- Created with Jaspersoft Studio version 7.0.8.final using JasperReports Library version 7.0.8-6f896111  -->
 <jasperReport name="PrestigeDepensesDotationProgramme" language="java" columnCount="1" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" columnSpacing="550" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="1e5682cf-a91a-46fb-80ff-2f861dde96b9">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SIGFIP"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="cm"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<style name="Cell" vTextAlign="Middle" fontName="Times New Roman" fontSize="8.0">
@@ -321,7 +321,7 @@ Order by d.LB_SEC_NUM,substr (d.LB_IB_CODE,18,2)]]></query>
 			<element kind="textField" uuid="83a5f7ac-7c3c-40eb-905a-9a0b1bf5f049" x="626" y="0" width="87" height="18" stretchType="ContainerHeight" style="NumCell">
 				<expression><![CDATA[$P{FMT}.format($F{AE2}).replace(',', (char)160)]]></expression>
 			</element>
-			<element kind="textField" uuid="6a57ac9f-77f7-47e8-92ac-9abf5c77cd9e" x="713" y="0" width="87" height="18" stretchType="ContainerHeight" style="NumCell">
+			<element kind="textField" uuid="6a57ac9f-77f7-47e8-92ac-9abf5c77cd9e" x="713" y="0" width="86" height="18" stretchType="ContainerHeight" style="NumCell">
 				<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				<expression><![CDATA[$P{FMT}.format($F{CP2}).replace(',', (char)160)]]></expression>
 			</element>

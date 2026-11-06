@@ -1,6 +1,6 @@
 <!-- Created with Jaspersoft Studio version 7.0.8.final using JasperReports Library version 7.0.8-6f896111  -->
 <jasperReport name="PrestigeDepensesDotationProgramme" language="java" columnCount="1" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" columnSpacing="550" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="1e5682cf-a91a-46fb-80ff-2f861dde96b9">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SIGFIP"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="cm"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<style name="Cell" vTextAlign="Middle" fontName="Times New Roman" fontSize="8.0">

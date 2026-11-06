@@ -1,6 +1,6 @@
 <!-- Created with Jaspersoft Studio version 7.0.8.final using JasperReports Library version 7.0.8-6f896111  -->
-<jasperReport name="PrestigePrevisionsDepensesGroupe" language="java" columnCount="1" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" columnSpacing="550" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="1e5682cf-a91a-46fb-80ff-2f861dde96b9">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+<jasperReport name="PrestigeMatricielFonctionnelleEco" language="java" columnCount="1" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" columnSpacing="550" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="1e5682cf-a91a-46fb-80ff-2f861dde96b9">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SIGFIP"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="cm"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<style name="Cell" vTextAlign="Middle" fontName="Times New Roman" fontSize="8.0">
@@ -22,18 +22,16 @@
 			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
 		</box>
 	</style>
-	<style name="SecTxt" style="Cell" mode="Opaque" forecolor="#015B82" backcolor="#E1E4F5" hTextAlign="Left" vTextAlign="Middle" bold="true"/>
-	<style name="SecNum" style="SecTxt" hTextAlign="Right"/>
-	<style name="DivTxt" style="Cell" mode="Opaque" forecolor="#1F2A44" backcolor="#F1F4FA" hTextAlign="Left" vTextAlign="Middle" bold="true"/>
+	<style name="DivTxt" style="Cell" mode="Opaque" forecolor="#015B82" backcolor="#E1E4F5" hTextAlign="Left" vTextAlign="Middle" bold="true"/>
 	<style name="DivNum" style="DivTxt" hTextAlign="Right"/>
 	<parameter name="TITRE_ETAT" class="java.lang.String">
-		<defaultValueExpression><![CDATA["ETAT DES PREVISIONS DE DEPENSES BUDGETAIRE PAR FONCTION : GROUPE"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["TABLEAU MATRICIEL CROISE DE CLASSIFICATION FONCTIONNELLE ET ECONOMIQUE"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="P_EXERCICE" class="java.lang.String"/>
 	<parameter name="P_VERSION" class="java.lang.String"/>
 	<parameter name="P_SECTION" class="java.lang.String"/>
 	<parameter name="P_DIVISION" class="java.lang.String"/>
-	<parameter name="P_GROUPE" class="java.lang.String"/>
+	<parameter name="P_ARTICLE" class="java.lang.String"/>
 	<query language="sql"><![CDATA[select
  LB_EXE_EXE,
  LB_EXE_VER_CODE,
@@ -41,8 +39,8 @@
  FB_LIBELLE_LONG_SECTION(LB_SEC_NUM) as LIB_SECTION,
  substr(LB_IB_CODE,18,2) as CODE_DIVISION,
  fb_libelle_fonction_prog(substr(LB_IB_CODE,18,2)) as LIBELLE_DIVISION,
- substr(LB_IB_CODE,18,3) as CODE_GROUPE,
- fb_libelle_fonction_prog(substr(LB_IB_CODE,18,3)) as LIBELLE_GROUPE,
+ SUBSTR(LB_NAT_CODE,1,2) as ARTICLE,
+ FB_LIBELLE_NATURE(SUBSTR(LB_NAT_CODE,1,2)) as LIB_NATURE,
  nvl(sum(LB_MONTANT_FINAL_AE),0)/1000 as AE,
  nvl(sum(LB_MONTANT_FINAL),0)/1000 as CP,
  nvl(sum(LB_MONTANT_FINAL_AE1),0)/1000 as AE1,
@@ -54,9 +52,9 @@ where lb_exe_exe=$P{P_EXERCICE}
  and lb_exe_ver_code=$P{P_VERSION}
  and LB_SEC_NUM like CONCAT($P{P_SECTION},'%')
  and substr(LB_IB_CODE,18,2) like CONCAT($P{P_DIVISION},'%')
- and substr(LB_IB_CODE,18,3) like CONCAT($P{P_GROUPE},'%')
+ and SUBSTR(LB_NAT_CODE,1,2) like CONCAT($P{P_ARTICLE},'%')
  and substr(lb_ib_code,5,1)=1
-group by LB_SEC_NUM, LB_EXE_EXE, LB_EXE_VER_CODE, substr(LB_IB_CODE,18,2), substr(LB_IB_CODE,18,3)
+group by LB_EXE_EXE, LB_EXE_VER_CODE, LB_SEC_NUM, substr(LB_IB_CODE,18,2), SUBSTR(LB_NAT_CODE,1,2)
 order by 3, 5, 7]]></query>
 	<field name="LB_EXE_EXE" class="java.lang.String"/>
 	<field name="LB_EXE_VER_CODE" class="java.lang.String"/>
@@ -64,32 +62,14 @@ order by 3, 5, 7]]></query>
 	<field name="LIB_SECTION" class="java.lang.String"/>
 	<field name="CODE_DIVISION" class="java.lang.String"/>
 	<field name="LIBELLE_DIVISION" class="java.lang.String"/>
-	<field name="CODE_GROUPE" class="java.lang.String"/>
-	<field name="LIBELLE_GROUPE" class="java.lang.String"/>
+	<field name="ARTICLE" class="java.lang.String"/>
+	<field name="LIB_NATURE" class="java.lang.String"/>
 	<field name="AE" class="java.math.BigDecimal"/>
 	<field name="CP" class="java.math.BigDecimal"/>
 	<field name="AE1" class="java.math.BigDecimal"/>
 	<field name="CP1" class="java.math.BigDecimal"/>
 	<field name="AE2" class="java.math.BigDecimal"/>
 	<field name="CP2" class="java.math.BigDecimal"/>
-	<variable name="V_SEC_AE" resetType="Group" calculation="Sum" resetGroup="G_SECTION" class="java.math.BigDecimal">
-		<expression><![CDATA[$F{AE}]]></expression>
-	</variable>
-	<variable name="V_SEC_CP" resetType="Group" calculation="Sum" resetGroup="G_SECTION" class="java.math.BigDecimal">
-		<expression><![CDATA[$F{CP}]]></expression>
-	</variable>
-	<variable name="V_SEC_AE1" resetType="Group" calculation="Sum" resetGroup="G_SECTION" class="java.math.BigDecimal">
-		<expression><![CDATA[$F{AE1}]]></expression>
-	</variable>
-	<variable name="V_SEC_CP1" resetType="Group" calculation="Sum" resetGroup="G_SECTION" class="java.math.BigDecimal">
-		<expression><![CDATA[$F{CP1}]]></expression>
-	</variable>
-	<variable name="V_SEC_AE2" resetType="Group" calculation="Sum" resetGroup="G_SECTION" class="java.math.BigDecimal">
-		<expression><![CDATA[$F{AE2}]]></expression>
-	</variable>
-	<variable name="V_SEC_CP2" resetType="Group" calculation="Sum" resetGroup="G_SECTION" class="java.math.BigDecimal">
-		<expression><![CDATA[$F{CP2}]]></expression>
-	</variable>
 	<variable name="V_DIV_AE" resetType="Group" calculation="Sum" resetGroup="G_DIV" class="java.math.BigDecimal">
 		<expression><![CDATA[$F{AE}]]></expression>
 	</variable>
@@ -108,140 +88,52 @@ order by 3, 5, 7]]></query>
 	<variable name="V_DIV_CP2" resetType="Group" calculation="Sum" resetGroup="G_DIV" class="java.math.BigDecimal">
 		<expression><![CDATA[$F{CP2}]]></expression>
 	</variable>
-	<variable name="V_TOT_AE" calculation="Sum" class="java.math.BigDecimal">
-		<expression><![CDATA[$F{AE}]]></expression>
-	</variable>
-	<variable name="V_TOT_CP" calculation="Sum" class="java.math.BigDecimal">
-		<expression><![CDATA[$F{CP}]]></expression>
-	</variable>
-	<variable name="V_TOT_AE1" calculation="Sum" class="java.math.BigDecimal">
-		<expression><![CDATA[$F{AE1}]]></expression>
-	</variable>
-	<variable name="V_TOT_CP1" calculation="Sum" class="java.math.BigDecimal">
-		<expression><![CDATA[$F{CP1}]]></expression>
-	</variable>
-	<variable name="V_TOT_AE2" calculation="Sum" class="java.math.BigDecimal">
-		<expression><![CDATA[$F{AE2}]]></expression>
-	</variable>
-	<variable name="V_TOT_CP2" calculation="Sum" class="java.math.BigDecimal">
-		<expression><![CDATA[$F{CP2}]]></expression>
-	</variable>
 	<group name="G_SECTION" startNewPage="true" reprintHeaderOnEachPage="true">
 		<expression><![CDATA[$F{LB_SEC_NUM}]]></expression>
 		<groupHeader>
-			<band height="36" splitType="Stretch">
-				<element kind="staticText" uuid="08278790-b3ff-4ea0-821d-54ec3c10d652" x="0" y="0" width="60" height="36" style="Head">
-					<box style="Head">
-						<pen lineColor="#FFFFFF"/>
-					</box>
-					<text><![CDATA[Min.
-Div
-Grpe]]></text>
+			<band height="64" splitType="Stretch">
+				<element kind="rectangle" uuid="69dc6ac0-79eb-4239-9506-085ede5ff0a9" x="0" y="0" width="802" height="22" forecolor="#E1E4F5" backcolor="#E1E4F5" mode="Opaque" radius="4"/>
+				<element kind="rectangle" uuid="2ee043eb-ece8-41d4-a616-29eb00c14498" x="0" y="0" width="4" height="22" forecolor="#015B82" backcolor="#015B82" mode="Opaque"/>
+				<element kind="textField" uuid="a7ba0830-b503-4298-a126-e5bdfd7ab66e" x="13" y="0" width="40" height="22" forecolor="#015B82" fontName="DejaVu Sans" fontSize="10.0" bold="true" vTextAlign="Middle">
+					<expression><![CDATA[$F{LB_SEC_NUM}]]></expression>
 				</element>
-				<element kind="staticText" uuid="e57c2e12-75e3-4800-8899-db510de2fc92" x="60" y="0" width="322" height="36" style="Head">
-					<box style="Head">
-						<pen lineColor="#FFFFFF"/>
-					</box>
-					<text><![CDATA[INTITULE]]></text>
+				<element kind="textField" uuid="29346ef2-6a35-4ef9-8112-87d67f2a440f" x="55" y="0" width="740" height="22" forecolor="#015B82" fontName="DejaVu Sans" fontSize="10.0" bold="true" blankWhenNull="true" vTextAlign="Middle">
+					<expression><![CDATA[$F{LIB_SECTION}]]></expression>
 				</element>
-				<element kind="textField" uuid="7a0080c7-5254-40cf-9ae8-586b10c93637" x="382" y="0" width="140" height="18" style="Head">
-					<box style="Head">
-						<pen lineColor="#FFFFFF"/>
-					</box>
+				<element kind="staticText" uuid="f1791285-bc0b-4f3e-997f-5940474f85a8" x="0" y="28" width="60" height="36" style="Head">
+					<text><![CDATA[Code
+Div/Art]]></text>
+				</element>
+				<element kind="staticText" uuid="1056c9b2-44f0-48ac-808e-00229466d3d1" x="60" y="28" width="322" height="36" style="Head">
+					<text><![CDATA[Intitulé
+Division/Article]]></text>
+				</element>
+				<element kind="textField" uuid="04c51344-d6e5-43b7-af2d-13c237ab0001" x="382" y="28" width="140" height="18" style="Head">
 					<expression><![CDATA[$F{LB_EXE_EXE}]]></expression>
 				</element>
-				<element kind="textField" uuid="62642647-58a7-4ac3-bc66-9901f548dfaf" x="522" y="0" width="140" height="18" style="Head">
-					<box style="Head">
-						<pen lineColor="#FFFFFF"/>
-					</box>
+				<element kind="textField" uuid="d21f1e34-1ee9-44dd-8be9-a871a84530df" x="522" y="28" width="140" height="18" style="Head">
 					<expression><![CDATA[String.valueOf(Integer.parseInt($F{LB_EXE_EXE}.trim()) + 1)]]></expression>
 				</element>
-				<element kind="textField" uuid="591a70ac-3555-46ec-be1c-355fb5a16e7a" x="662" y="0" width="140" height="18" style="Head">
-					<box style="Head">
-						<pen lineColor="#FFFFFF"/>
-					</box>
+				<element kind="textField" uuid="8b7f5c9f-3ca9-4cac-bd64-8fdbf34d388a" x="662" y="28" width="140" height="18" style="Head">
 					<expression><![CDATA[String.valueOf(Integer.parseInt($F{LB_EXE_EXE}.trim()) + 2)]]></expression>
 				</element>
-				<element kind="staticText" uuid="52f952a2-b749-42a7-ad8c-6ee60c5224e8" x="382" y="18" width="70" height="18" style="HeadSub">
-					<box style="HeadSub">
-						<pen lineColor="#FFFFFF"/>
-					</box>
+				<element kind="staticText" uuid="5adb2615-142a-43cd-a568-77ad53436619" x="382" y="46" width="70" height="18" style="HeadSub">
 					<text><![CDATA[AE]]></text>
 				</element>
-				<element kind="staticText" uuid="36dc655a-cf7b-459e-9c04-533f0a722bdb" x="452" y="18" width="70" height="18" style="HeadSub">
-					<box style="HeadSub">
-						<pen lineColor="#FFFFFF"/>
-					</box>
+				<element kind="staticText" uuid="540005d4-a319-42f2-a7e1-d8bf77cd798e" x="452" y="46" width="70" height="18" style="HeadSub">
 					<text><![CDATA[CP]]></text>
 				</element>
-				<element kind="staticText" uuid="0a8ca80a-4256-44b2-8061-90ad3102e7a9" x="522" y="18" width="70" height="18" style="HeadSub">
-					<box style="HeadSub">
-						<pen lineColor="#FFFFFF"/>
-					</box>
+				<element kind="staticText" uuid="9abbd42f-ef3e-4a24-aa79-d8239827113c" x="522" y="46" width="70" height="18" style="HeadSub">
 					<text><![CDATA[AE]]></text>
 				</element>
-				<element kind="staticText" uuid="b3a9a5c9-cc08-4635-ae06-6b1b2a1d55f9" x="592" y="18" width="70" height="18" style="HeadSub">
-					<box style="HeadSub">
-						<pen lineColor="#FFFFFF"/>
-					</box>
+				<element kind="staticText" uuid="89cf1e1d-5b7f-4f8e-8fb0-b06595979e90" x="592" y="46" width="70" height="18" style="HeadSub">
 					<text><![CDATA[CP]]></text>
 				</element>
-				<element kind="staticText" uuid="2c698c82-0a85-4724-82df-22189257db07" x="662" y="18" width="70" height="18" style="HeadSub">
-					<box style="HeadSub">
-						<pen lineColor="#FFFFFF"/>
-					</box>
+				<element kind="staticText" uuid="5076cb3c-b1a9-4709-9ece-0162d4a8d5f8" x="662" y="46" width="70" height="18" style="HeadSub">
 					<text><![CDATA[AE]]></text>
 				</element>
-				<element kind="staticText" uuid="6d39d37c-71e2-4a38-b6d3-298b6fc8acbe" x="732" y="18" width="70" height="18" style="HeadSub">
-					<box style="HeadSub">
-						<pen lineColor="#FFFFFF"/>
-					</box>
+				<element kind="staticText" uuid="5515a93b-7158-4fb3-88af-571ca0756d7e" x="732" y="46" width="70" height="18" style="HeadSub">
 					<text><![CDATA[CP]]></text>
-				</element>
-			</band>
-			<band height="18" splitType="Stretch">
-				<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
-				<element kind="staticText" uuid="f5721add-f7e3-40d5-9520-87e375fac722" x="0" y="0" width="382" height="18" style="TotLabel">
-					<box style="TotLabel">
-						<pen lineColor="#FFFFFF"/>
-					</box>
-					<text><![CDATA[TOTAL GLOBAL :]]></text>
-				</element>
-				<element kind="textField" uuid="39346354-af6c-45f2-8a06-dc659b8f44a4" x="382" y="0" width="70" height="18" evaluationTime="Report" style="TotNum">
-					<box style="TotNum">
-						<pen lineColor="#FFFFFF"/>
-					</box>
-					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_TOT_AE}).replace(',', ' ')]]></expression>
-				</element>
-				<element kind="textField" uuid="5e9e05ed-7d10-4e6b-aa42-86ed7102c26e" x="452" y="0" width="70" height="18" evaluationTime="Report" style="TotNum">
-					<box style="TotNum">
-						<pen lineColor="#FFFFFF"/>
-					</box>
-					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_TOT_CP}).replace(',', ' ')]]></expression>
-				</element>
-				<element kind="textField" uuid="c257a3d9-41b7-4d20-97c6-d2da87c018bc" x="522" y="0" width="70" height="18" evaluationTime="Report" style="TotNum">
-					<box style="TotNum">
-						<pen lineColor="#FFFFFF"/>
-					</box>
-					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_TOT_AE1}).replace(',', ' ')]]></expression>
-				</element>
-				<element kind="textField" uuid="cb448b31-0515-40f3-82ac-d034749fca27" x="592" y="0" width="70" height="18" evaluationTime="Report" style="TotNum">
-					<box style="TotNum">
-						<pen lineColor="#FFFFFF"/>
-					</box>
-					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_TOT_CP1}).replace(',', ' ')]]></expression>
-				</element>
-				<element kind="textField" uuid="ad01817f-b759-4dda-8858-79884799ae01" x="662" y="0" width="70" height="18" evaluationTime="Report" style="TotNum">
-					<box style="TotNum">
-						<pen lineColor="#FFFFFF"/>
-					</box>
-					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_TOT_AE2}).replace(',', ' ')]]></expression>
-				</element>
-				<element kind="textField" uuid="d1f7de6b-2f71-44b4-9573-24310e2800c5" x="732" y="0" width="70" height="18" evaluationTime="Report" style="TotNum">
-					<box style="TotNum">
-						<pen lineColor="#FFFFFF"/>
-					</box>
-					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_TOT_CP2}).replace(',', ' ')]]></expression>
 				</element>
 			</band>
 		</groupHeader>
@@ -249,67 +141,32 @@ Grpe]]></text>
 			<band height="18" splitType="Stretch"/>
 		</groupFooter>
 	</group>
-	<group name="G_SECROW">
-		<expression><![CDATA[$F{LB_SEC_NUM}]]></expression>
-		<groupHeader>
-			<band height="18" splitType="Stretch">
-				<element kind="textField" uuid="2b5e34bb-950a-4693-aed4-f7af1635f077" x="1" y="0" width="59" height="18" stretchType="ContainerHeight" style="SecTxt">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-					<expression><![CDATA[$F{LB_SEC_NUM}]]></expression>
-				</element>
-				<element kind="textField" uuid="d24dbfac-424b-4edd-a95f-3c683ecc0cbf" x="60" y="0" width="322" height="18" stretchType="ContainerHeight" textAdjust="StretchHeight" blankWhenNull="true" style="SecTxt">
-					<expression><![CDATA[$F{LIB_SECTION}]]></expression>
-				</element>
-				<element kind="textField" uuid="4c097713-a64d-4fe6-b21f-b76cdc804dc9" x="382" y="0" width="70" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_SECROW" style="SecNum">
-					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_SEC_AE}).replace(',', ' ')]]></expression>
-				</element>
-				<element kind="textField" uuid="a76f7bb6-1655-4035-bc88-e56e72a63e0b" x="452" y="0" width="70" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_SECROW" style="SecNum">
-					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_SEC_CP}).replace(',', ' ')]]></expression>
-				</element>
-				<element kind="textField" uuid="d4fdf042-17ed-402f-8c33-e59c2c501d74" x="522" y="0" width="70" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_SECROW" style="SecNum">
-					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_SEC_AE1}).replace(',', ' ')]]></expression>
-				</element>
-				<element kind="textField" uuid="3d4e6d3d-08d5-44dd-943e-5d4e330e9554" x="592" y="0" width="70" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_SECROW" style="SecNum">
-					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_SEC_CP1}).replace(',', ' ')]]></expression>
-				</element>
-				<element kind="textField" uuid="ff539e95-600e-4aa8-bff0-24af824e8811" x="662" y="0" width="70" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_SECROW" style="SecNum">
-					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_SEC_AE2}).replace(',', ' ')]]></expression>
-				</element>
-				<element kind="textField" uuid="2a3b8cdd-974b-41d2-a9d2-9f0e60ec8b35" x="732" y="0" width="69" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_SECROW" style="SecNum">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_SEC_CP2}).replace(',', ' ')]]></expression>
-				</element>
-			</band>
-		</groupHeader>
-	</group>
 	<group name="G_DIV" minHeightToStartNewPage="40">
 		<expression><![CDATA[$F{CODE_DIVISION}]]></expression>
 		<groupHeader>
 			<band height="18" splitType="Stretch">
-				<element kind="textField" uuid="02ffeb92-fcc3-463e-86dd-71b5868255ef" x="1" y="0" width="59" height="18" stretchType="ContainerHeight" style="DivTxt">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<element kind="textField" uuid="8ea40d6a-563b-4c3c-97d2-71cdec0efe69" x="0" y="0" width="60" height="18" stretchType="ContainerHeight" style="DivTxt">
 					<expression><![CDATA[$F{CODE_DIVISION}]]></expression>
 				</element>
-				<element kind="textField" uuid="422fd3ce-b6dc-42ae-b054-47f417c108dd" x="60" y="0" width="322" height="18" stretchType="ContainerHeight" textAdjust="StretchHeight" blankWhenNull="true" style="DivTxt">
+				<element kind="textField" uuid="44a1febb-229c-4d00-895a-3861df9e071e" x="60" y="0" width="322" height="18" stretchType="ContainerHeight" textAdjust="StretchHeight" blankWhenNull="true" style="DivTxt">
 					<expression><![CDATA[$F{LIBELLE_DIVISION}]]></expression>
 				</element>
-				<element kind="textField" uuid="72fdbc12-b6c6-47ba-bc33-013e8ca0d75e" x="382" y="0" width="70" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_DIV" style="DivNum">
+				<element kind="textField" uuid="a6ed5ff2-e4d3-412a-8d9d-c20555819bcc" x="382" y="0" width="70" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_DIV" style="DivNum">
 					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_DIV_AE}).replace(',', ' ')]]></expression>
 				</element>
-				<element kind="textField" uuid="55c248e6-fbae-4d6e-a451-4be1b5343c2b" x="452" y="0" width="70" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_DIV" style="DivNum">
+				<element kind="textField" uuid="9101e687-1488-4faa-98be-281a5dca89b6" x="452" y="0" width="70" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_DIV" style="DivNum">
 					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_DIV_CP}).replace(',', ' ')]]></expression>
 				</element>
-				<element kind="textField" uuid="d576388b-8e7f-447d-8afe-b63d2bd593a4" x="522" y="0" width="70" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_DIV" style="DivNum">
+				<element kind="textField" uuid="c794539b-ecd9-4d69-97e9-7d749f1d6b94" x="522" y="0" width="70" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_DIV" style="DivNum">
 					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_DIV_AE1}).replace(',', ' ')]]></expression>
 				</element>
-				<element kind="textField" uuid="592f38c2-e1a0-4ee5-a91c-b03d40e93e38" x="592" y="0" width="70" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_DIV" style="DivNum">
+				<element kind="textField" uuid="b5c70d76-adcc-459f-9f14-2a34c181879f" x="592" y="0" width="70" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_DIV" style="DivNum">
 					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_DIV_CP1}).replace(',', ' ')]]></expression>
 				</element>
-				<element kind="textField" uuid="6108abba-49ec-4464-af30-6b1ea170a3de" x="662" y="0" width="70" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_DIV" style="DivNum">
+				<element kind="textField" uuid="a2cbf401-3ec8-413a-b444-ce860ceddd15" x="662" y="0" width="70" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_DIV" style="DivNum">
 					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_DIV_AE2}).replace(',', ' ')]]></expression>
 				</element>
-				<element kind="textField" uuid="67248581-9035-457b-b381-6765057fab5a" x="732" y="0" width="69" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_DIV" style="DivNum">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<element kind="textField" uuid="f0591620-e88a-46a7-ad90-b91f3fa70da3" x="732" y="0" width="70" height="18" stretchType="ContainerHeight" evaluationTime="Group" evaluationGroup="G_DIV" style="DivNum">
 					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_DIV_CP2}).replace(',', ' ')]]></expression>
 				</element>
 			</band>
@@ -365,7 +222,7 @@ Grpe]]></text>
 		</element>
 		<element kind="frame" uuid="610d10a3-640a-4ca2-869b-80dc9e5c4b09" x="207" y="111" width="395" height="29">
 			<element kind="rectangle" uuid="0a80a086-67d6-4cdc-bc62-01959847aded" x="0" y="-2" width="395" height="29" forecolor="#015B82" backcolor="#74BBFB" mode="Opaque" radius="8"/>
-			<element kind="textField" uuid="a59c68b2-7a43-4be5-b6a6-116b2411794c" x="0" y="2" width="394" height="17" forecolor="#015B82" textAdjust="StretchHeight" bold="true" hTextAlign="Center">
+			<element kind="textField" uuid="a59c68b2-7a43-4be5-b6a6-116b2411794c" x="0" y="0" width="394" height="17" forecolor="#015B82" textAdjust="StretchHeight" bold="true" hTextAlign="Center">
 				<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
 				<property name="com.jaspersoft.studio.unit.spacingAfter" value="px"/>
 				<box>
@@ -395,7 +252,7 @@ Grpe]]></text>
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<text><![CDATA[EXERCICE :]]></text>
 		</element>
-		<element kind="component" uuid="9cf11141-bc2e-455b-a021-595dbe3c6d62" x="42" y="95" width="81" height="70" forecolor="#015B82">
+		<element kind="component" uuid="9cf11141-bc2e-455b-a021-595dbe3c6d62" x="42" y="94" width="81" height="70" forecolor="#015B82">
 			<component kind="barcode4j:QRCode">
 				<codeExpression><![CDATA["Nom: TADETE\nPrenom: Medessi\nPoste: Developpeur\nMail: taderedavid@gmail.com\nTelephone: 70424747"]]></codeExpression>
 			</component>
@@ -403,30 +260,28 @@ Grpe]]></text>
 	</pageHeader>
 	<detail>
 		<band height="18" splitType="Stretch">
-			<element kind="textField" uuid="1e1d7836-2adc-4fac-9323-34579b1a24e2" x="1" y="0" width="59" height="18" stretchType="ContainerHeight" style="TxtCell">
-				<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				<expression><![CDATA[$F{CODE_GROUPE}]]></expression>
+			<element kind="textField" uuid="75f9bf56-3dfe-4f3d-95bd-476b5abbbfcc" x="0" y="0" width="60" height="18" stretchType="ContainerHeight" hTextAlign="Center" style="TxtCell">
+				<expression><![CDATA[$F{ARTICLE}]]></expression>
 			</element>
-			<element kind="textField" uuid="03d81182-f188-47ae-943c-bd9715edafc8" x="60" y="0" width="322" height="18" stretchType="ContainerHeight" textAdjust="StretchHeight" blankWhenNull="true" style="TxtCell">
-				<expression><![CDATA[$F{LIBELLE_GROUPE}]]></expression>
+			<element kind="textField" uuid="f559e100-5486-4342-a194-03a045d9c9a3" x="60" y="0" width="322" height="18" stretchType="ContainerHeight" textAdjust="StretchHeight" blankWhenNull="true" style="TxtCell">
+				<expression><![CDATA[$F{LIB_NATURE}]]></expression>
 			</element>
-			<element kind="textField" uuid="44b0544a-f975-4faa-a76a-759c8547efe0" x="382" y="0" width="70" height="18" stretchType="ContainerHeight" style="NumCell">
+			<element kind="textField" uuid="02742541-6157-4306-8abb-2ce37a63c497" x="382" y="0" width="70" height="18" stretchType="ContainerHeight" style="NumCell">
 				<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $F{AE}).replace(',', ' ')]]></expression>
 			</element>
-			<element kind="textField" uuid="6544d8b1-808c-49d5-a1c3-b08231ae01a0" x="452" y="0" width="70" height="18" stretchType="ContainerHeight" style="NumCell">
+			<element kind="textField" uuid="b0c3bd22-0604-4547-8052-b1fe51598928" x="452" y="0" width="70" height="18" stretchType="ContainerHeight" style="NumCell">
 				<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $F{CP}).replace(',', ' ')]]></expression>
 			</element>
-			<element kind="textField" uuid="fb01e209-587b-4254-8e45-fdbf7a97747d" x="522" y="0" width="70" height="18" stretchType="ContainerHeight" style="NumCell">
+			<element kind="textField" uuid="8886cccf-3581-4922-8243-d1f23a95875b" x="522" y="0" width="70" height="18" stretchType="ContainerHeight" style="NumCell">
 				<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $F{AE1}).replace(',', ' ')]]></expression>
 			</element>
-			<element kind="textField" uuid="5c729934-100c-43da-9107-224f277bf216" x="592" y="0" width="70" height="18" stretchType="ContainerHeight" style="NumCell">
+			<element kind="textField" uuid="6488befd-bb0a-45c9-9f6f-e4441de6a88c" x="592" y="0" width="70" height="18" stretchType="ContainerHeight" style="NumCell">
 				<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $F{CP1}).replace(',', ' ')]]></expression>
 			</element>
-			<element kind="textField" uuid="cc5b2b34-d47e-406f-971b-80ce0c612c64" x="662" y="0" width="70" height="18" stretchType="ContainerHeight" style="NumCell">
+			<element kind="textField" uuid="1dff9ef6-e4db-4f0d-900f-24d26af319b2" x="662" y="0" width="70" height="18" stretchType="ContainerHeight" style="NumCell">
 				<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $F{AE2}).replace(',', ' ')]]></expression>
 			</element>
-			<element kind="textField" uuid="7e0e3895-6538-4789-bb32-1db52af9158a" x="732" y="0" width="69" height="18" stretchType="ContainerHeight" style="NumCell">
-				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<element kind="textField" uuid="5fc1b716-b7fb-47e5-b8cd-ec88fa7c92b4" x="732" y="0" width="70" height="18" stretchType="ContainerHeight" style="NumCell">
 				<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $F{CP2}).replace(',', ' ')]]></expression>
 			</element>
 		</band>

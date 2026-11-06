@@ -1,6 +1,6 @@
 <!-- Created with Jaspersoft Studio version 7.0.8.final using JasperReports Library version 7.0.8-6f896111  -->
-<jasperReport name="PrestigeDepensesDotationProgramme" language="java" columnCount="1" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" columnSpacing="550" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="1e5682cf-a91a-46fb-80ff-2f861dde96b9">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+<jasperReport name="PrestigePIPSectionChapitres" language="java" columnCount="1" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" columnSpacing="550" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="1e5682cf-a91a-46fb-80ff-2f861dde96b9">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SIGFIP"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="cm"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<style name="Cell" vTextAlign="Middle" fontName="Times New Roman" fontSize="8.0">
@@ -22,191 +22,167 @@
 			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
 		</box>
 	</style>
+	<style name="S1Txt" style="Cell" mode="Opaque" forecolor="#015B82" backcolor="#E1E4F5" hTextAlign="Left" vTextAlign="Middle" bold="true"/>
+	<style name="S1Num" style="S1Txt" hTextAlign="Right"/>
+	<style name="S2Txt" style="Cell" mode="Opaque" forecolor="#015B82" backcolor="#EDF3F6" hTextAlign="Left" vTextAlign="Middle" bold="true"/>
+	<style name="S2Num" style="S2Txt" hTextAlign="Right"/>
+	<parameter name="gestion" class="java.lang.String"/>
+	<parameter name="section" class="java.lang.String"/>
+	<parameter name="version" class="java.lang.String"/>
 	<parameter name="TITRE_ETAT" class="java.lang.String">
-		<defaultValueExpression><![CDATA["ETAT DES PREVISIONS DES DEPENSES PAR FONCTION : DIVISION"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["PROGRAMME D'INVESTISSEMENTS PUBLICS (PIP) " + ($P{gestion} == null ? "" : $P{gestion})]]></defaultValueExpression>
 	</parameter>
-	<parameter name="P_Gestion" class="java.lang.String">
-		<defaultValueExpression><![CDATA[new java.text.SimpleDateFormat("yyyy").format(new java.util.Date())]]></defaultValueExpression>
-	</parameter>
-	<parameter name="P_Version" class="java.lang.String">
-		<defaultValueExpression><![CDATA["1"]]></defaultValueExpression>
-	</parameter>
-	<parameter name="P_Section" class="java.lang.String">
-		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
-	</parameter>
-	<parameter name="P_Division" class="java.lang.String">
-		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
-	</parameter>
-	<parameter name="FMT" forPrompting="false" class="java.text.DecimalFormat">
-		<defaultValueExpression><![CDATA[new java.text.DecimalFormat("#,##0", new java.text.DecimalFormatSymbols(java.util.Locale.US))]]></defaultValueExpression>
-	</parameter>
-	<query language="SQL"><![CDATA[select
-d.LB_SEC_NUM Code_Section,
-s.sec_lib_court Libelle_Section, s.sec_lib_long Libelle_sec_Long,
-substr (d.LB_IB_CODE,18,2) code_Division,
-fb_libelle_fonction_prog (substr (d.LB_IB_CODE,18,2)) Libelle_Division,
-
-nvl(sum(d.LB_MONTANT_FINAL_AE),0)/1000 AE,
-nvl(sum(d.LB_MONTANT_FINAL),0)/1000 CP,
-nvl(sum(d.LB_MONTANT_FINAL_AE1),0)/1000 AE1,
-nvl(sum(d.LB_MONTANT_FINAL_CP1),0)/1000 CP1,
-nvl(sum(d.LB_MONTANT_FINAL_AE2),0)/1000 AE2,
-nvl(sum(d.LB_MONTANT_FINAL_CP2),0)/1000 CP2
-
-from vb_ligne_budget_dep d, vb_fonction_prog f,vb_section_courant s
-
-where substr (d.LB_IB_CODE,18,2)=f.fonc_prog_code 
-and d.LB_SEC_NUM=s.sec_num
-and d.LB_SEC_DATE_EFFET=s.sec_date_effet
-and d.LB_EXE_EXE              LIKE $P{P_Gestion}||'%'
-and d.LB_EXE_VER_CODE         LIKE $P{P_Version}||'%'
-and d.LB_SEC_NUM              LIKE $P{P_Section}||'%'
-and substr(d.LB_IB_CODE,18,2) LIKE $P{P_Division}||'%'
-and substr(lb_ib_code,5,1)=1
-Group by d.LB_SEC_NUM,s.sec_lib_court,s.sec_lib_long,
-substr(d.LB_IB_CODE,18,2)
-Order by d.LB_SEC_NUM,substr (d.LB_IB_CODE,18,2)]]></query>
-	<field name="CODE_SECTION" class="java.lang.String"/>
-	<field name="LIBELLE_SECTION" class="java.lang.String"/>
-	<field name="LIBELLE_SEC_LONG" class="java.lang.String"/>
-	<field name="CODE_DIVISION" class="java.lang.String"/>
-	<field name="LIBELLE_DIVISION" class="java.lang.String"/>
-	<field name="AE" class="java.math.BigDecimal"/>
-	<field name="CP" class="java.math.BigDecimal"/>
-	<field name="AE1" class="java.math.BigDecimal"/>
-	<field name="CP1" class="java.math.BigDecimal"/>
-	<field name="AE2" class="java.math.BigDecimal"/>
-	<field name="CP2" class="java.math.BigDecimal"/>
-	<variable name="SEC_AE" resetType="Group" calculation="Sum" resetGroup="G_SECTION" class="java.math.BigDecimal">
-		<expression><![CDATA[$F{AE}]]></expression>
-		<initialValueExpression><![CDATA[new java.math.BigDecimal(0)]]></initialValueExpression>
+	<query language="sql"><![CDATA[select l.lb_titr_code,
+ lb_sec_num,
+ SUBSTR(l.LB_IB_CODE,1,4) ACTION,
+ SUBSTR(l.LB_IB_CODE,5,13) CHAPITRE,
+ SUBSTR(l.LB_IB_CODE,18,4) FONCTION,
+ SUBSTR(l.LB_IB_CODE,22,4) SOURCE_FIN,
+ lb_ib_code,
+ lb_chap_code,
+ SUBSTR(lb_nat_code,1,2) ARTICLE,
+ SUBSTR(lb_nat_code,3,1) PARAGRAPHE,
+ SUBSTR(lb_nat_code,4,3) LIGNE,
+ chap_lib,
+ lb_montant_final,
+ FB_LIBELLE_LONG_SECTION(lb_sec_num) LIB_SECTION
+from vb_ligne_budget_dep l, vb_chapitre
+where l.LB_EXE_EXE = $P{gestion}
+ and l.lb_sec_num like CONCAT($P{section},'%')
+ and lb_exe_ver_code = $P{version}
+ and lb_chap_code = chap_code
+ and nvl(lb_tres_svr,0)+nvl(lb_tres_mn,0)>0
+ and l.LB_TITR_CODE=5
+ and SUBSTR(l.LB_IB_CODE,22,4) like ('5%')
+ and SUBSTR(l.LB_IB_CODE,5,1)=2
+order by 2, 3, 4, 5, 6]]></query>
+	<field name="LB_TITR_CODE" class="java.lang.String"/>
+	<field name="LB_SEC_NUM" class="java.lang.String"/>
+	<field name="ACTION" class="java.lang.String"/>
+	<field name="CHAPITRE" class="java.lang.String"/>
+	<field name="FONCTION" class="java.lang.String"/>
+	<field name="SOURCE_FIN" class="java.lang.String"/>
+	<field name="LB_IB_CODE" class="java.lang.String"/>
+	<field name="LB_CHAP_CODE" class="java.lang.String"/>
+	<field name="ARTICLE" class="java.lang.String"/>
+	<field name="PARAGRAPHE" class="java.lang.String"/>
+	<field name="LIGNE" class="java.lang.String"/>
+	<field name="CHAP_LIB" class="java.lang.String"/>
+	<field name="LIB_SECTION" class="java.lang.String"/>
+	<field name="LB_MONTANT_FINAL" class="java.math.BigDecimal"/>
+	<variable name="V_SEC_MONTANT" resetType="Group" calculation="Sum" resetGroup="G_SECTION" class="java.math.BigDecimal">
+		<expression><![CDATA[$F{LB_MONTANT_FINAL}]]></expression>
 	</variable>
-	<variable name="SEC_CP" resetType="Group" calculation="Sum" resetGroup="G_SECTION" class="java.math.BigDecimal">
-		<expression><![CDATA[$F{CP}]]></expression>
-		<initialValueExpression><![CDATA[new java.math.BigDecimal(0)]]></initialValueExpression>
-	</variable>
-	<variable name="SEC_AE1" resetType="Group" calculation="Sum" resetGroup="G_SECTION" class="java.math.BigDecimal">
-		<expression><![CDATA[$F{AE1}]]></expression>
-		<initialValueExpression><![CDATA[new java.math.BigDecimal(0)]]></initialValueExpression>
-	</variable>
-	<variable name="SEC_CP1" resetType="Group" calculation="Sum" resetGroup="G_SECTION" class="java.math.BigDecimal">
-		<expression><![CDATA[$F{CP1}]]></expression>
-		<initialValueExpression><![CDATA[new java.math.BigDecimal(0)]]></initialValueExpression>
-	</variable>
-	<variable name="SEC_AE2" resetType="Group" calculation="Sum" resetGroup="G_SECTION" class="java.math.BigDecimal">
-		<expression><![CDATA[$F{AE2}]]></expression>
-		<initialValueExpression><![CDATA[new java.math.BigDecimal(0)]]></initialValueExpression>
-	</variable>
-	<variable name="SEC_CP2" resetType="Group" calculation="Sum" resetGroup="G_SECTION" class="java.math.BigDecimal">
-		<expression><![CDATA[$F{CP2}]]></expression>
-		<initialValueExpression><![CDATA[new java.math.BigDecimal(0)]]></initialValueExpression>
+	<variable name="V_REP_MONTANT" calculation="Sum" class="java.math.BigDecimal">
+		<expression><![CDATA[$F{LB_MONTANT_FINAL}]]></expression>
 	</variable>
 	<group name="G_SECTION" startNewPage="true" reprintHeaderOnEachPage="true">
-		<expression><![CDATA[$F{CODE_SECTION}]]></expression>
+		<expression><![CDATA[$F{LB_SEC_NUM}]]></expression>
 		<groupHeader>
-			<band height="64" splitType="Stretch">
-				<element kind="rectangle" uuid="eff107e3-3604-47df-b3ad-2960446e4680" x="3" y="2" width="797" height="20" forecolor="#E1E4F5" backcolor="#E1E4F5" mode="Opaque" radius="2">
-					<pen lineWidth="0.0"/>
+			<band height="82" splitType="Stretch">
+				<element kind="staticText" uuid="a708bd8b-93a0-4998-b4e9-d582e67a7915" x="290" y="0" width="236" height="12" mode="Transparent" fontSize="8.0" bold="false" italic="true" hTextAlign="Center" style="Cell">
+					<box style="Cell">
+						<pen lineColor="rgba(0, 0, 0, 0.0)"/>
+					</box>
+					<text><![CDATA[Présentation par section & par Chapitres]]></text>
 				</element>
-				<element kind="rectangle" uuid="f7583b74-1811-488c-88d1-f1c5861f0952" x="3" y="2" width="5" height="20" forecolor="#015B82" backcolor="#015B82" mode="Opaque" radius="2">
-					<pen lineWidth="0.0"/>
+				<element kind="staticText" uuid="d35b7a98-a866-416f-9f9a-a9c63d10fb39" x="290" y="12" width="236" height="12" mode="Transparent" fontSize="8.0" italic="true" hTextAlign="Center" style="Cell">
+					<box style="Cell">
+						<pen lineColor="rgba(0, 0, 0, 0.0)"/>
+					</box>
+					<text><![CDATA[(ENTIEREMENT FINANCES PAR L'ETAT)]]></text>
 				</element>
-				<element kind="textField" uuid="20729698-d888-4558-bc09-fee42e7d25ec" x="16" y="2" width="50" height="20" forecolor="#015B82" fontName="Times New Roman" fontSize="11.0" bold="true" vTextAlign="Middle">
-					<expression><![CDATA[$F{CODE_SECTION}]]></expression>
+				<element kind="staticText" uuid="fe7c0a47-ae26-44df-9567-2d0ed4ca7d76" x="0" y="28" width="70" height="22" style="S1Txt">
+					<text><![CDATA[SECTION]]></text>
 				</element>
-				<element kind="textField" uuid="476d8e97-7c83-4028-9511-2679d837f188" x="70" y="2" width="720" height="20" forecolor="#015B82" fontName="Times New Roman" fontSize="11.0" bold="true" vTextAlign="Middle">
-					<expression><![CDATA[$F{LIBELLE_SECTION}]]></expression>
+				<element kind="textField" uuid="db65b8b1-8493-4021-93ef-14f9e9a0a42e" x="70" y="28" width="60" height="22" style="S1Txt">
+					<expression><![CDATA[$F{LB_SEC_NUM}]]></expression>
 				</element>
-				<element kind="staticText" uuid="b32d24b2-4426-45f2-9cfd-16d364fd9477" x="3" y="24" width="60" height="40" style="Head">
+				<element kind="textField" uuid="3396e775-ab32-437b-9692-a05a3907049b" x="130" y="28" width="672" height="22" blankWhenNull="true" style="S1Txt">
+					<expression><![CDATA[$F{LIB_SECTION}]]></expression>
+				</element>
+				<element kind="staticText" uuid="a8aacc41-ae0e-4957-a645-6cae150212d4" x="0" y="54" width="24" height="28" style="Head">
 					<box style="Head">
 						<pen lineColor="#FFFFFF"/>
 					</box>
-					<text><![CDATA[CODE]]></text>
+					<text><![CDATA[GN]]></text>
 				</element>
-				<element kind="staticText" uuid="d253b126-cd51-4914-b754-35c9ebd5d377" x="63" y="24" width="215" height="40" style="Head">
+				<element kind="staticText" uuid="ff034e65-f90a-4bc2-853f-1b32a35b9576" x="24" y="54" width="30" height="28" style="Head">
 					<box style="Head">
 						<pen lineColor="#FFFFFF"/>
 					</box>
-					<text><![CDATA[Intitulé Division]]></text>
+					<text><![CDATA[SECT]]></text>
 				</element>
-				<element kind="textField" uuid="053e4081-3f21-476f-9a69-1b1b4e8ada53" x="278" y="24" width="174" height="20" style="Head">
+				<element kind="staticText" uuid="457e0719-c525-4c2e-9e0c-5ae3f306d484" x="54" y="54" width="44" height="28" style="Head">
 					<box style="Head">
 						<pen lineColor="#FFFFFF"/>
 					</box>
-					<expression><![CDATA[$P{P_Gestion}]]></expression>
+					<text><![CDATA[ACTION]]></text>
 				</element>
-				<element kind="staticText" uuid="bf89ce30-fc79-4250-a238-c8a57de80567" x="278" y="44" width="87" height="20" style="HeadSub">
-					<box style="HeadSub">
-						<pen lineColor="#FFFFFF"/>
-					</box>
-					<text><![CDATA[AE]]></text>
-				</element>
-				<element kind="staticText" uuid="57b2c8de-d62a-4bce-bf02-36c96fd4cdfb" x="365" y="44" width="87" height="20" style="HeadSub">
-					<box style="HeadSub">
-						<pen lineColor="#FFFFFF"/>
-					</box>
-					<text><![CDATA[CP]]></text>
-				</element>
-				<element kind="textField" uuid="bbf75169-413b-4261-a43a-97a747e0cb9c" x="452" y="24" width="174" height="20" style="Head">
+				<element kind="staticText" uuid="09988955-12f1-4fdd-b55f-367e61a45460" x="98" y="54" width="76" height="28" style="Head">
 					<box style="Head">
 						<pen lineColor="#FFFFFF"/>
 					</box>
-					<expression><![CDATA[($P{P_Gestion} != null && $P{P_Gestion}.length() == 4) ? String.valueOf(Integer.parseInt($P{P_Gestion}) + 1) : ""]]></expression>
+					<text><![CDATA[CHAPITRE]]></text>
 				</element>
-				<element kind="staticText" uuid="9142d312-10b3-4e40-baba-3ba256c1535b" x="452" y="44" width="87" height="20" style="HeadSub">
-					<box style="HeadSub">
-						<pen lineColor="#FFFFFF"/>
-					</box>
-					<text><![CDATA[AE]]></text>
-				</element>
-				<element kind="staticText" uuid="bc3c93ca-1f85-4892-8f2f-aa545b296fa4" x="539" y="44" width="87" height="20" style="HeadSub">
-					<box style="HeadSub">
-						<pen lineColor="#FFFFFF"/>
-					</box>
-					<text><![CDATA[CP]]></text>
-				</element>
-				<element kind="textField" uuid="42cc92d5-22d2-4451-8c1b-f39d66edcb77" x="626" y="24" width="174" height="20" style="Head">
+				<element kind="staticText" uuid="8ccebe2f-589d-4b7e-a793-15151e419cab" x="174" y="54" width="50" height="28" style="Head">
 					<box style="Head">
 						<pen lineColor="#FFFFFF"/>
 					</box>
-					<expression><![CDATA[($P{P_Gestion} != null && $P{P_Gestion}.length() == 4) ? String.valueOf(Integer.parseInt($P{P_Gestion}) + 2) : ""]]></expression>
+					<text><![CDATA[FONCTION]]></text>
 				</element>
-				<element kind="staticText" uuid="d3b8bf6c-9951-4ec2-a739-4a8f7283c0ae" x="626" y="44" width="87" height="20" style="HeadSub">
-					<box style="HeadSub">
+				<element kind="staticText" uuid="e1439d1a-2543-4537-8939-b821b6f89f74" x="224" y="54" width="50" height="28" style="Head">
+					<box style="Head">
 						<pen lineColor="#FFFFFF"/>
 					</box>
-					<text><![CDATA[AE]]></text>
+					<text><![CDATA[SOURCES
+FIN]]></text>
 				</element>
-				<element kind="staticText" uuid="6a8d96af-a2c8-43c4-b26d-bb8d52894ac6" x="713" y="44" width="87" height="20" style="HeadSub">
-					<box style="HeadSub">
+				<element kind="staticText" uuid="3556bad1-c93a-4c82-ac25-1c2b455031e2" x="274" y="54" width="30" height="28" style="Head">
+					<box style="Head">
 						<pen lineColor="#FFFFFF"/>
 					</box>
-					<text><![CDATA[CP]]></text>
+					<text><![CDATA[ART]]></text>
+				</element>
+				<element kind="staticText" uuid="be7f3815-2254-4dd4-96ca-f3358034528b" x="304" y="54" width="38" height="28" style="Head">
+					<box style="Head">
+						<pen lineColor="#FFFFFF"/>
+					</box>
+					<text><![CDATA[PARAG]]></text>
+				</element>
+				<element kind="staticText" uuid="e531a681-f98f-46ff-89d1-483165efd9ef" x="342" y="54" width="36" height="28" style="Head">
+					<box style="Head">
+						<pen lineColor="#FFFFFF"/>
+					</box>
+					<text><![CDATA[LIGNE]]></text>
+				</element>
+				<element kind="staticText" uuid="eef7bf16-36f3-4bb8-ab3a-3aa6d09d1170" x="378" y="54" width="314" height="28" style="Head">
+					<box style="Head">
+						<pen lineColor="#FFFFFF"/>
+					</box>
+					<text><![CDATA[LIBELLE]]></text>
+				</element>
+				<element kind="staticText" uuid="c5811aea-4dc5-4435-92d6-be9ef8473fb9" x="692" y="54" width="110" height="28" style="Head">
+					<box style="Head">
+						<pen lineColor="#FFFFFF"/>
+					</box>
+					<text><![CDATA[AUTORISATION]]></text>
 				</element>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="18" splitType="Stretch">
-				<element kind="textField" uuid="ddbdccba-f19f-4713-81d3-e9bd9a631605" x="3" y="0" width="275" height="18" style="TotLabel">
-					<expression><![CDATA["Total Section " + $F{CODE_SECTION} + " :"]]></expression>
+			<band height="22" splitType="Stretch">
+				<element kind="staticText" uuid="3b5d01e0-b1cc-4c94-b63c-c4a8984cf42a" x="0" y="0" width="692" height="18" hTextAlign="Left" style="S2Txt">
+					<box style="S2Txt">
+						<pen lineColor="#FFFFFF"/>
+					</box>
+					<text><![CDATA[TOTAL SECTION]]></text>
 				</element>
-				<element kind="textField" uuid="884172f7-0a53-4960-9eb1-1549f35475e5" x="278" y="0" width="87" height="18" style="TotNum">
-					<expression><![CDATA[$P{FMT}.format($V{SEC_AE}).replace(',', (char)160)]]></expression>
-				</element>
-				<element kind="textField" uuid="7bb81d2f-fdd0-4641-b690-da931b589cd1" x="365" y="0" width="87" height="18" style="TotNum">
-					<expression><![CDATA[$P{FMT}.format($V{SEC_CP}).replace(',', (char)160)]]></expression>
-				</element>
-				<element kind="textField" uuid="c1a03ae0-d4cd-4b6f-84c7-c788d2a101af" x="452" y="0" width="87" height="18" style="TotNum">
-					<expression><![CDATA[$P{FMT}.format($V{SEC_AE1}).replace(',', (char)160)]]></expression>
-				</element>
-				<element kind="textField" uuid="2176deb3-f042-4b1f-8d51-c21ebdab4c62" x="539" y="0" width="87" height="18" style="TotNum">
-					<expression><![CDATA[$P{FMT}.format($V{SEC_CP1}).replace(',', (char)160)]]></expression>
-				</element>
-				<element kind="textField" uuid="4f23c5b1-03f0-44ae-9479-9cf57fe8d3d4" x="626" y="0" width="87" height="18" style="TotNum">
-					<expression><![CDATA[$P{FMT}.format($V{SEC_AE2}).replace(',', (char)160)]]></expression>
-				</element>
-				<element kind="textField" uuid="5613353e-e62d-4547-838b-6b9f7c757b93" x="713" y="0" width="87" height="18" style="TotNum">
-					<expression><![CDATA[$P{FMT}.format($V{SEC_CP2}).replace(',', (char)160)]]></expression>
+				<element kind="textField" uuid="4dc3e2ee-db58-40d2-a1fd-e5874da2854b" x="692" y="0" width="110" height="18" style="S2Num">
+					<box style="S2Num">
+						<pen lineColor="#FFFFFF"/>
+					</box>
+					<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_SEC_MONTANT}).replace(',', ' ')]]></expression>
 				</element>
 			</band>
 		</groupFooter>
@@ -274,7 +250,7 @@ Order by d.LB_SEC_NUM,substr (d.LB_IB_CODE,18,2)]]></query>
 				<expression><![CDATA[$P{TITRE_ETAT}]]></expression>
 			</element>
 			<element kind="textField" uuid="d534c43f-e761-41db-9123-4dc5f3cba833" x="208" y="37" width="50" height="10" fontName="Times New Roman" fontSize="7.0" bold="true">
-				<expression><![CDATA[$P{P_Gestion} + " - " + $P{P_Version}]]></expression>
+				<expression><![CDATA[new java.text.SimpleDateFormat("yyyy").format(new java.util.Date())]]></expression>
 			</element>
 		</element>
 		<element kind="staticText" uuid="fdbaf08e-171e-4d9c-91f4-47273e3725db" x="379" y="98" width="50" height="7" markup="none" fontName="Times New Roman" fontSize="5.0" hTextAlign="Center">
@@ -299,31 +275,40 @@ Order by d.LB_SEC_NUM,substr (d.LB_IB_CODE,18,2)]]></query>
 	</pageHeader>
 	<detail>
 		<band height="18" splitType="Stretch">
-			<element kind="textField" uuid="29a032c0-a82f-42c0-aae7-e395673c2689" x="4" y="0" width="59" height="18" stretchType="ContainerHeight" hTextAlign="Center" style="TxtCell">
+			<element kind="textField" uuid="13f115a4-9097-4dbc-99f7-723c8e0fa8cd" x="1" y="0" width="23" height="18" stretchType="ContainerHeight" blankWhenNull="true" hTextAlign="Center" style="TxtCell">
 				<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				<expression><![CDATA[$F{CODE_DIVISION}]]></expression>
+				<expression><![CDATA[$F{LB_TITR_CODE}]]></expression>
 			</element>
-			<element kind="textField" uuid="a93d7aaf-a0ed-46a6-a484-0f240590f8a9" x="63" y="0" width="215" height="18" textAdjust="StretchHeight" style="TxtCell">
-				<expression><![CDATA[$F{LIBELLE_DIVISION}]]></expression>
+			<element kind="textField" uuid="804f640d-e198-4443-950b-e8781462287e" x="24" y="0" width="30" height="18" stretchType="ContainerHeight" blankWhenNull="true" hTextAlign="Center" style="TxtCell">
+				<expression><![CDATA[$F{LB_SEC_NUM}]]></expression>
 			</element>
-			<element kind="textField" uuid="e9cb3af4-c9d6-4acb-bd5e-eec294cbe544" x="278" y="0" width="87" height="18" stretchType="ContainerHeight" style="NumCell">
-				<expression><![CDATA[$P{FMT}.format($F{AE}).replace(',', (char)160)]]></expression>
+			<element kind="textField" uuid="a56d6c57-f94d-4f0b-8e31-6c78a6e03a86" x="54" y="0" width="44" height="18" stretchType="ContainerHeight" blankWhenNull="true" hTextAlign="Center" style="TxtCell">
+				<expression><![CDATA[$F{ACTION}]]></expression>
 			</element>
-			<element kind="textField" uuid="b66dfd5c-af36-44e6-ab42-bf116e9a2169" x="365" y="0" width="87" height="18" stretchType="ContainerHeight" style="NumCell">
-				<expression><![CDATA[$P{FMT}.format($F{CP}).replace(',', (char)160)]]></expression>
+			<element kind="textField" uuid="c6bd7804-c667-4597-b043-372e18abba9c" x="98" y="0" width="76" height="18" stretchType="ContainerHeight" blankWhenNull="true" hTextAlign="Center" style="TxtCell">
+				<expression><![CDATA[$F{CHAPITRE}]]></expression>
 			</element>
-			<element kind="textField" uuid="7631bcdf-4d0d-4f74-bff7-de8bb83d524c" x="452" y="0" width="87" height="18" stretchType="ContainerHeight" style="NumCell">
-				<expression><![CDATA[$P{FMT}.format($F{AE1}).replace(',', (char)160)]]></expression>
+			<element kind="textField" uuid="596f22cc-b7fb-4d79-a158-8fc76cb5f18e" x="174" y="0" width="50" height="18" stretchType="ContainerHeight" blankWhenNull="true" hTextAlign="Center" style="TxtCell">
+				<expression><![CDATA[$F{FONCTION}]]></expression>
 			</element>
-			<element kind="textField" uuid="267ac299-3097-4f1d-9260-e675d8a5ebea" x="539" y="0" width="87" height="18" stretchType="ContainerHeight" style="NumCell">
-				<expression><![CDATA[$P{FMT}.format($F{CP1}).replace(',', (char)160)]]></expression>
+			<element kind="textField" uuid="3de59d35-0def-4ad5-a7e0-a5eadc352a34" x="224" y="0" width="50" height="18" stretchType="ContainerHeight" blankWhenNull="true" hTextAlign="Center" style="TxtCell">
+				<expression><![CDATA[$F{SOURCE_FIN}]]></expression>
 			</element>
-			<element kind="textField" uuid="83a5f7ac-7c3c-40eb-905a-9a0b1bf5f049" x="626" y="0" width="87" height="18" stretchType="ContainerHeight" style="NumCell">
-				<expression><![CDATA[$P{FMT}.format($F{AE2}).replace(',', (char)160)]]></expression>
+			<element kind="textField" uuid="ea71ac5d-4582-447a-8d7e-cadcfd7acc76" x="274" y="0" width="30" height="18" stretchType="ContainerHeight" blankWhenNull="true" hTextAlign="Center" style="TxtCell">
+				<expression><![CDATA[$F{ARTICLE}]]></expression>
 			</element>
-			<element kind="textField" uuid="6a57ac9f-77f7-47e8-92ac-9abf5c77cd9e" x="713" y="0" width="87" height="18" stretchType="ContainerHeight" style="NumCell">
+			<element kind="textField" uuid="930b0aaf-28ce-4449-af6a-f50da885ed90" x="304" y="0" width="38" height="18" stretchType="ContainerHeight" blankWhenNull="true" hTextAlign="Center" style="TxtCell">
+				<expression><![CDATA[$F{PARAGRAPHE}]]></expression>
+			</element>
+			<element kind="textField" uuid="70c98eb0-09f1-4b4b-b240-1cef317cb842" x="342" y="0" width="36" height="18" stretchType="ContainerHeight" blankWhenNull="true" hTextAlign="Center" style="TxtCell">
+				<expression><![CDATA[$F{LIGNE}]]></expression>
+			</element>
+			<element kind="textField" uuid="c398b6e6-c670-47e9-a065-4ebb55ad180c" x="378" y="0" width="314" height="18" stretchType="ContainerHeight" textAdjust="StretchHeight" blankWhenNull="true" style="TxtCell">
+				<expression><![CDATA[$F{CHAP_LIB}]]></expression>
+			</element>
+			<element kind="textField" uuid="fd05913d-d435-48a3-a71c-15714b3fab58" x="692" y="0" width="109" height="18" stretchType="ContainerHeight" style="NumCell">
 				<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				<expression><![CDATA[$P{FMT}.format($F{CP2}).replace(',', (char)160)]]></expression>
+				<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $F{LB_MONTANT_FINAL}).replace(',', ' ')]]></expression>
 			</element>
 		</band>
 	</detail>
@@ -373,5 +358,12 @@ Order by d.LB_SEC_NUM,substr (d.LB_IB_CODE,18,2)]]></query>
 			<expression><![CDATA[$V{PAGE_COUNT}]]></expression>
 		</element>
 	</pageFooter>
-	<summary height="10" splitType="Stretch"/>
+	<summary height="26" splitType="Stretch">
+		<element kind="staticText" uuid="697a8489-2e8b-4991-aa52-e895176fdc10" x="0" y="6" width="692" height="18" forecolor="#080808" backcolor="rgba(11, 110, 42, 0.36078432)" hTextAlign="Left" style="TotLabel">
+			<text><![CDATA[TOTAL GENERAL]]></text>
+		</element>
+		<element kind="textField" uuid="b3986864-9c8d-4910-9334-b8a6a80dc4b9" x="692" y="6" width="110" height="18" forecolor="#080808" backcolor="rgba(11, 110, 42, 0.36078432)" style="TotNum">
+			<expression><![CDATA[String.format(java.util.Locale.US, "%,.0f", $V{V_REP_MONTANT}).replace(',', ' ')]]></expression>
+		</element>
+	</summary>
 </jasperReport>

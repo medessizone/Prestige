@@ -1,6 +1,6 @@
 <!-- Created with Jaspersoft Studio version 7.0.8.final using JasperReports Library version 7.0.8-6f896111  -->
 <jasperReport name="PrestigeEtatActions" language="java" columnCount="1" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" columnSpacing="550" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="1e5682cf-a91a-46fb-80ff-2f861dde96b9">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SIGFIP"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Prestige"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="cm"/>
 	<style name="Base" forecolor="#1F2A44" vTextAlign="Middle" fontName="DejaVu Sans" fontSize="8.0"/>
 	<style name="Cell" style="Base">
@@ -102,8 +102,8 @@ order by 3, 6, 8]]></query>
 		<groupHeader>
 			<band height="28" splitType="Stretch">
 				<element kind="rectangle" uuid="4dab087a-e963-4f96-8583-8e5830efa7fe" x="0" y="0" width="802" height="22" forecolor="#E9EEF6" backcolor="#E9EEF6" mode="Opaque" radius="4"/>
-				<element kind="rectangle" uuid="e741db5c-ba1d-4af5-8380-491773fe7063" x="0" y="0" width="5" height="22" forecolor="#0B3A9E" backcolor="#015B82" mode="Opaque"/>
-				<element kind="textField" uuid="08933429-7af9-4b57-af50-e7b692d7f239" x="14" y="0" width="780" height="22" forecolor="#0B3A9E" backcolor="#015B82" fontName="DejaVu Sans" fontSize="10.0" bold="true" vTextAlign="Middle">
+				<element kind="rectangle" uuid="e741db5c-ba1d-4af5-8380-491773fe7063" x="0" y="0" width="5" height="22" forecolor="#015B82" backcolor="#015B82" mode="Opaque"/>
+				<element kind="textField" uuid="08933429-7af9-4b57-af50-e7b692d7f239" x="14" y="0" width="780" height="22" forecolor="#015B82" backcolor="#015B82" fontName="DejaVu Sans" fontSize="10.0" bold="true" vTextAlign="Middle">
 					<expression><![CDATA[$F{LB_SEC_NUM} + "   " + $F{SEC_LIB_LONG}]]></expression>
 				</element>
 			</band>
@@ -139,11 +139,11 @@ order by 3, 6, 8]]></query>
 		<groupHeader>
 			<band height="58" splitType="Stretch">
 				<element kind="rectangle" uuid="d011fe7d-0ccc-4303-b5a5-9d2000d3afb7" x="0" y="2" width="802" height="20" forecolor="#D5DCE8" backcolor="#F4F6FA" mode="Opaque" radius="4"/>
-				<element kind="rectangle" uuid="c4c16543-00a1-431c-b372-778d886194e1" x="0" y="2" width="4" height="20" forecolor="#0B3A9E" backcolor="#015B82" mode="Opaque"/>
-				<element kind="textField" uuid="fbd272a4-30fc-4dc0-aa63-ba2cb41fd241" x="12" y="2" width="45" height="20" forecolor="#0B3A9E" fontName="DejaVu Sans" fontSize="9.0" bold="true" vTextAlign="Middle">
+				<element kind="rectangle" uuid="c4c16543-00a1-431c-b372-778d886194e1" x="0" y="2" width="4" height="20" forecolor="#015B82" backcolor="#015B82" mode="Opaque"/>
+				<element kind="textField" uuid="fbd272a4-30fc-4dc0-aa63-ba2cb41fd241" x="12" y="2" width="45" height="20" forecolor="#015B82" fontName="DejaVu Sans" fontSize="9.0" bold="true" vTextAlign="Middle">
 					<expression><![CDATA[$F{PROG_CODE}]]></expression>
 				</element>
-				<element kind="textField" uuid="9c732c85-6419-43dd-9a01-d8b668e564b5" x="60" y="2" width="732" height="20" forecolor="#1F2A44" fontName="DejaVu Sans" fontSize="9.0" bold="true" vTextAlign="Middle">
+				<element kind="textField" uuid="9c732c85-6419-43dd-9a01-d8b668e564b5" x="60" y="2" width="732" height="20" forecolor="#015B82" fontName="DejaVu Sans" fontSize="9.0" bold="true" vTextAlign="Middle">
 					<expression><![CDATA[$F{PROG_LIB}]]></expression>
 				</element>
 				<element kind="staticText" uuid="80abedfc-992d-431d-8818-45e2496d549b" x="0" y="30" width="45" height="28" backcolor="#015B82" style="Head">
@@ -234,10 +234,13 @@ order by 3, 6, 8]]></query>
 			<expression><![CDATA["Prestige/PrestigeLogo.jpg"]]></expression>
 		</element>
 		<element kind="frame" uuid="610d10a3-640a-4ca2-869b-80dc9e5c4b09" x="207" y="113" width="395" height="29">
-			<element kind="rectangle" uuid="0a80a086-67d6-4cdc-bc62-01959847aded" x="0" y="0" width="395" height="29" forecolor="#0B3A9E" backcolor="#0B3A9E" mode="Opaque" radius="8"/>
-			<element kind="textField" uuid="a59c68b2-7a43-4be5-b6a6-116b2411794c" x="0" y="0" width="394" height="27" forecolor="#FFFFFF" fontName="DejaVu Sans" fontSize="11.0" textAdjust="StretchHeight" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<element kind="rectangle" uuid="0a80a086-67d6-4cdc-bc62-01959847aded" x="0" y="0" width="395" height="29" forecolor="#0B3A9E" backcolor="#74BBFB" mode="Opaque" radius="8">
+				<pen lineColor="#015B82"/>
+			</element>
+			<element kind="textField" uuid="a59c68b2-7a43-4be5-b6a6-116b2411794c" x="0" y="2" width="394" height="17" forecolor="#015B82" fontName="DejaVu Sans" fontSize="11.0" textAdjust="StretchHeight" bold="true" hTextAlign="Center" vTextAlign="Middle">
 				<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
 				<property name="com.jaspersoft.studio.unit.spacingAfter" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -257,10 +260,10 @@ order by 3, 6, 8]]></query>
 		</element>
 	</pageHeader>
 	<columnHeader height="24" splitType="Stretch">
-		<element kind="staticText" uuid="5c93411c-5bb8-477d-ba36-04878b1b92c1" x="207" y="0" width="395" height="11" fontName="Times New Roman" fontSize="8.0" italic="true" hTextAlign="Center">
+		<element kind="staticText" uuid="5c93411c-5bb8-477d-ba36-04878b1b92c1" x="207" y="-13" width="395" height="11" fontName="Times New Roman" fontSize="8.0" italic="true" hTextAlign="Center">
 			<text><![CDATA[( millier de francs )]]></text>
 		</element>
-		<element kind="textField" uuid="abcbe91d-83cd-49bd-a686-8abdab1387d2" x="207" y="11" width="395" height="12" forecolor="#0B3A9E" fontName="DejaVu Sans" fontSize="9.0" bold="true" hTextAlign="Center">
+		<element kind="textField" uuid="abcbe91d-83cd-49bd-a686-8abdab1387d2" x="207" y="-2" width="395" height="12" forecolor="#015B82" fontName="DejaVu Sans" fontSize="9.0" bold="true" hTextAlign="Center">
 			<expression><![CDATA["EXERCICE : " + new java.text.SimpleDateFormat("yyyy").format(new java.util.Date())]]></expression>
 		</element>
 	</columnHeader>

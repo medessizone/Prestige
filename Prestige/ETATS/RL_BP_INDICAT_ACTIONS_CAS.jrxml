@@ -1,5 +1,5 @@
 <!-- Created with Jaspersoft Studio version 7.0.8.final using JasperReports Library version 7.0.8-6f896111  -->
-<jasperReport name="PrestigeIndicateursProgrammes" language="java" columnCount="1" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" columnSpacing="550" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="1e5682cf-a91a-46fb-80ff-2f861dde96b9">
+<jasperReport name="PrestigeIndicateursActionsCAS" language="java" columnCount="1" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" columnSpacing="550" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="1e5682cf-a91a-46fb-80ff-2f861dde96b9">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SIGFIP"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="cm"/>
 	<style name="Cell" vTextAlign="Middle" fontName="Times New Roman" fontSize="8.0">
@@ -22,7 +22,7 @@
 		</box>
 	</style>
 	<parameter name="TITRE_ETAT" class="java.lang.String">
-		<defaultValueExpression><![CDATA["INDICATEURS DE PERFORMANCE DES PROGRAMMES"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["CADRE DE PERFORMANCE DES PROGRAMMES ET ACTIONS"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="P_EXERCICE" class="java.lang.String"/>
 	<parameter name="P_VERSION" class="java.lang.String"/>
@@ -52,6 +52,33 @@ from (
   and o.OBJ_TYPE_CODE='OBJPRO'
   and o.OBJ_DATE_FIN is null
   and i.IND_TYPE='INDPRO'
+  and v.vlr_exe_exe like CONCAT($P{P_EXERCICE},'%')
+  and v.vlr_exe_ver_code like CONCAT($P{P_VERSION},'%')
+  and p.PROG_SEC_NUM like CONCAT($P{P_SECTION},'%')
+ union
+ select distinct
+  p.PROG_SEC_NUM,
+  a.act_code,
+  a.act_lib_court,
+  o.obj_lib,
+  i.ind_libelle,
+  i.IND_UNIT_COD,
+  v.vlr_annee_reference,
+  v.vlr_valeur_reference,
+  v.vlr_valeur_realisee,
+  v.vlr_valeur_estimee,
+  v.vlr_cible_prevue_n1,
+  v.vlr_cible_prevue_n2,
+  v.vlr_cible_prevue_n3,
+  cast(null as varchar2(200))
+ from vbp_action_courante a, vbp_objectif o, vbp_indicateur i, vbp_valeurs v, vbp_programmes_courant p
+ where a.ACT_CODE=o.obj_code_code
+  and o.obj_code=v.vlr_obj_code
+  and i.ind_code=v.vlr_ind_code
+  and a.ACT_PROG_CODE=p.PROG_CODE
+  and o.OBJ_TYPE_CODE='OBJACT'
+  and o.OBJ_DATE_FIN is null
+  and i.IND_TYPE='INDACT'
   and v.vlr_exe_exe like CONCAT($P{P_EXERCICE},'%')
   and v.vlr_exe_ver_code like CONCAT($P{P_VERSION},'%')
   and p.PROG_SEC_NUM like CONCAT($P{P_SECTION},'%')
@@ -89,16 +116,19 @@ order by 1, 2]]></query>
 					<expression><![CDATA[$F{SEC_LIB_LONG}]]></expression>
 				</element>
 				<element kind="staticText" uuid="df07d3e7-c07e-41fd-b151-ea0d8b44294e" x="0" y="28" width="40" height="38" style="Head">
-					<text><![CDATA[Min./Prog]]></text>
+					<text><![CDATA[Prog/
+Actions]]></text>
 				</element>
 				<element kind="staticText" uuid="96ccd66f-223a-4991-a479-5f2ba5b77011" x="40" y="28" width="120" height="38" style="Head">
-					<text><![CDATA[Intitulés Programmes]]></text>
+					<text><![CDATA[Intitulés Programmes/
+Actions]]></text>
 				</element>
 				<element kind="staticText" uuid="16ad356a-2c88-4591-9e7b-8b7543f22a63" x="160" y="28" width="120" height="38" style="Head">
-					<text><![CDATA[Objectifs Programmes]]></text>
+					<text><![CDATA[Objectifs Programmes/
+Actions]]></text>
 				</element>
 				<element kind="staticText" uuid="b7d626dc-fd67-4798-a05c-b4db52a065eb" x="280" y="28" width="130" height="38" style="Head">
-					<text><![CDATA[Indicateur performance des programmes]]></text>
+					<text><![CDATA[Indicateur performance des programmes et actions]]></text>
 				</element>
 				<element kind="staticText" uuid="d39af91d-e8fb-4eeb-8779-c418b5baff65" x="410" y="28" width="124" height="19" style="Head">
 					<text><![CDATA[REFERENCE]]></text>
@@ -137,7 +167,8 @@ order by 1, 2]]></query>
 					<expression><![CDATA[String.valueOf($V{V_EXE} + 2)]]></expression>
 				</element>
 				<element kind="staticText" uuid="79414dc1-6b0c-43f4-a34a-d43bf28125e6" x="714" y="28" width="88" height="38" style="Head">
-					<text><![CDATA[RESPONSABLE PROGRAMME]]></text>
+					<text><![CDATA[STRUCTURE
+RESPONSABLE]]></text>
 				</element>
 			</band>
 		</groupHeader>
@@ -147,7 +178,7 @@ order by 1, 2]]></query>
 			<expression><![CDATA["Prestige/PrestigeFiligrane.png"]]></expression>
 		</element>
 	</background>
-	<pageHeader height="165" splitType="Stretch">
+	<pageHeader height="166" splitType="Stretch">
 		<element kind="frame" uuid="4905e2cf-aa57-49cd-8bf5-304fc1ec9f5f" x="3" y="0" width="167" height="100">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<element kind="line" uuid="5c9744aa-38e9-4b44-8445-f265024a5f37" x="69" y="32" width="20" height="1">
@@ -204,6 +235,9 @@ order by 1, 2]]></query>
 				<paragraph spacingBefore="3" spacingAfter="3"/>
 				<expression><![CDATA[$P{TITRE_ETAT}]]></expression>
 			</element>
+			<element kind="staticText" uuid="3101d3a6-9d47-4cf6-afd4-a5d02df22a10" x="161" y="37" width="77" height="10" fontSize="7.0">
+				<text><![CDATA[EXERCICE :]]></text>
+			</element>
 		</element>
 		<element kind="staticText" uuid="fdbaf08e-171e-4d9c-91f4-47273e3725db" x="379" y="100" width="50" height="7" markup="none" fontName="Times New Roman" fontSize="5.0" hTextAlign="Center">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -212,10 +246,10 @@ order by 1, 2]]></query>
 			<paragraph spacingBefore="0"/>
 			<text><![CDATA[Travail - Liberté - Patrie]]></text>
 		</element>
-		<element kind="textField" uuid="ce7610d8-a91b-4de6-9c7a-faac13027f15" x="404" y="153" width="46" height="10" fontName="Times New Roman" fontSize="7.0" hTextAlign="Left" vTextAlign="Middle">
+		<element kind="textField" uuid="ce7610d8-a91b-4de6-9c7a-faac13027f15" x="410" y="150" width="40" height="10" fontName="Times New Roman" fontSize="7.0" hTextAlign="Left" vTextAlign="Middle">
 			<expression><![CDATA[($P{P_EXERCICE} == null ? "" : $P{P_EXERCICE}) + ($P{P_VERSION_LIB} == null || $P{P_VERSION_LIB}.isEmpty() ? "" : " - " + $P{P_VERSION_LIB})]]></expression>
 		</element>
-		<element kind="component" uuid="cceb2701-851e-44c3-b69e-166671d49a02" x="26" y="97" width="111" height="68" forecolor="#015B82" backcolor="rgba(230, 239, 247, 0.0)" stretchType="NoStretch">
+		<element kind="component" uuid="cceb2701-851e-44c3-b69e-166671d49a02" x="31" y="95" width="103" height="71" forecolor="#015B82" backcolor="rgba(230, 239, 247, 0.0)" stretchType="NoStretch">
 			<property name="com.jaspersoft.studio.unit.margin" value="pixel"/>
 			<property name="com.jaspersoft.studio.unit.width" value="px"/>
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -223,13 +257,9 @@ order by 1, 2]]></query>
 				<codeExpression><![CDATA["Nom: TADETE\nPrenom: Medessi\nPoste: Developpeur\nMail: taderedavid@gmail.com\nTelephone: 70424747"]]></codeExpression>
 			</component>
 		</element>
-		<element kind="staticText" uuid="5e64430e-57c8-464a-a2ab-5a27a77cd836" x="361" y="153" width="48" height="10" fontSize="7.0">
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			<text><![CDATA[EXERCICE:]]></text>
-		</element>
 	</pageHeader>
 	<detail>
-		<band height="38" splitType="Stretch">
+		<band height="28" splitType="Stretch">
 			<element kind="textField" uuid="4ee647fe-c2fa-4977-80c0-6d9f75ff5083" x="0" y="0" width="40" height="28" stretchType="ContainerHeight" hTextAlign="Center" style="TxtCell">
 				<expression><![CDATA[$F{PROG_CODE}]]></expression>
 			</element>
@@ -273,13 +303,13 @@ order by 1, 2]]></query>
 	</detail>
 	<columnFooter splitType="Stretch"/>
 	<pageFooter height="40" splitType="Stretch">
-		<element kind="staticText" uuid="b1e38d68-e37e-492a-a2da-35b152fc8cc3" x="249" y="9" width="309" height="14" fontName="Times New Roman" fontSize="8.0" hTextAlign="Center">
+		<element kind="staticText" uuid="b1e38d68-e37e-492a-a2da-35b152fc8cc3" x="249" y="7" width="309" height="14" fontName="Times New Roman" fontSize="8.0" hTextAlign="Center">
 			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<paragraph spacingBefore="2"/>
 			<text><![CDATA[Prestige, l'expertise nationale au service des finaces publiques]]></text>
 		</element>
-		<element kind="line" uuid="87b8a106-bb59-4b72-b624-05ff74cc595c" x="2" y="6" width="797" height="1">
+		<element kind="line" uuid="87b8a106-bb59-4b72-b624-05ff74cc595c" x="3" y="6" width="797" height="1">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 		</element>
 		<element kind="staticText" uuid="12258648-91ec-41e0-b8e1-13e8d9798a1e" x="3" y="6" width="26" height="15" fontName="Times New Roman" fontSize="6.0">
@@ -294,29 +324,29 @@ order by 1, 2]]></query>
 			<paragraph spacingBefore="4"/>
 			<expression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())]]></expression>
 		</element>
-		<element kind="staticText" uuid="d40376c9-05fb-46de-8738-33ee4287e69f" x="742" y="11" width="22" height="14" fontName="Times New Roman" fontSize="6.0">
+		<element kind="staticText" uuid="d40376c9-05fb-46de-8738-33ee4287e69f" x="742" y="6" width="22" height="14" fontName="Times New Roman" fontSize="6.0">
 			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
 			<paragraph spacingBefore="2"/>
 			<text><![CDATA[Page ]]></text>
 		</element>
-		<element kind="staticText" uuid="599223b4-406b-4b2d-bb07-2558d4754948" x="768" y="12" width="6" height="14" fontSize="6.0">
+		<element kind="staticText" uuid="599223b4-406b-4b2d-bb07-2558d4754948" x="768" y="6" width="6" height="14" fontSize="6.0">
 			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
 			<paragraph spacingBefore="2"/>
 			<text><![CDATA[/]]></text>
 		</element>
-		<element kind="textField" uuid="b368b6bf-72fa-464d-a41a-747cc7eb14cb" x="760" y="12" width="16" height="14" fontName="Times New Roman" fontSize="6.0">
+		<element kind="textField" uuid="b368b6bf-72fa-464d-a41a-747cc7eb14cb" x="760" y="6" width="16" height="14" fontName="Times New Roman" fontSize="6.0">
 			<property name="com.jaspersoft.studio.unit.width" value="px"/>
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
 			<paragraph spacingBefore="2"/>
 			<expression><![CDATA[$V{PAGE_NUMBER}]]></expression>
 		</element>
-		<element kind="textField" uuid="307c8716-740b-4ebe-ad98-a6b5d0f7858c" x="772" y="12" width="20" height="14" fontName="Times New Roman" fontSize="6.0">
+		<element kind="textField" uuid="307c8716-740b-4ebe-ad98-a6b5d0f7858c" x="772" y="6" width="20" height="14" fontName="Times New Roman" fontSize="6.0" evaluationTime="Report">
 			<property name="com.jaspersoft.width" value="px"/>
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
 			<paragraph spacingBefore="2"/>
-			<expression><![CDATA[$V{PAGE_COUNT}]]></expression>
+			<expression><![CDATA[$V{PAGE_NUMBER}]]></expression>
 		</element>
 	</pageFooter>
 </jasperReport>
